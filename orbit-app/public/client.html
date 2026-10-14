@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Orbit – Your tasks</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap">
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--ink:#101a33;--mute:#65708a;--line:#e1e6f0;--acc:#3452d9;--accbg:#e4e9fc;--ok:#127a4f;--okbg:#d8f3e6;--warn:#8a5a00;--warnbg:#ffefc2;--hero:#101a33;--herotx:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1222;--card:#151d33;--ink:#e9edf8;--mute:#93a0bd;--line:#26314d;--acc:#8ea2ff;--accbg:#1f2b55;--ok:#6fe0aa;--okbg:#10372a;--warn:#ffd36b;--warnbg:#3d2e08;--hero:#1b2750}}
+:root[data-theme="dark"]{--bg:#0c1222;--card:#151d33;--ink:#e9edf8;--mute:#93a0bd;--line:#26314d;--acc:#8ea2ff;--accbg:#1f2b55;--ok:#6fe0aa;--okbg:#10372a;--warn:#ffd36b;--warnbg:#3d2e08;--hero:#1b2750}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 "Plus Jakarta Sans",system-ui,sans-serif}
+.wrap{max-width:1100px;margin:auto;padding:0 18px 90px}
+.top{display:flex;align-items:center;gap:10px;padding:16px 0}.logo{font-weight:800;font-size:20px;margin-right:auto}
+.btn{font:inherit;font-weight:700;border:0;border-radius:10px;padding:10px 16px;background:var(--acc);color:var(--bg);cursor:pointer}
+.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}.btn.sm{padding:6px 12px;font-size:13px}.btn:disabled{opacity:.4}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.hero{background:var(--hero);color:var(--herotx);border-radius:18px;padding:22px 24px;display:flex;gap:24px;flex-wrap:wrap;align-items:center}
+.hero h1{margin:0;font-size:26px;font-weight:800}.hero p{margin:2px 0 0;opacity:.75;font-size:14px}
+.stats{display:flex;gap:26px;margin-left:auto}.stats div{text-align:left}.stats b{display:block;font-size:30px;line-height:1.1}.stats span{font-size:12.5px;opacity:.75}
+.bar{display:flex;gap:10px;margin:18px 0 12px;flex-wrap:wrap}
+.search{flex:1;min-width:200px;font:inherit;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+.tabs{display:flex;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:3px}.tabs button{font:inherit;border:0;background:none;color:var(--mute);padding:7px 16px;border-radius:8px;cursor:pointer}.tabs button.on{background:var(--accbg);color:var(--acc);font-weight:700}
+.cols{display:grid;grid-template-columns:350px 1fr;gap:16px;align-items:start}@media(max-width:850px){.cols{grid-template-columns:1fr}}
+.item{display:block;width:100%;text-align:left;font:inherit;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer}
+.item.on{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}.item b{display:block}
+.pill{display:inline-block;font-size:12px;font-weight:500;padding:1px 10px;border-radius:99px;background:var(--line);color:var(--mute);margin-right:6px}
+.pill.ok{background:var(--okbg);color:var(--ok)}.pill.warn{background:var(--warnbg);color:var(--warn)}.pill.acc{background:var(--accbg);color:var(--acc)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:12px}
+.card h2{margin:0 0 4px;font-size:19px}.card h3{margin:0 0 8px;font-size:14px}.mute{color:var(--mute);font-size:13.5px}
+.msg{padding:10px 13px;border-radius:12px;margin:8px 0;max-width:92%;white-space:pre-wrap}.msg.ai{background:var(--bg);border:1px solid var(--line)}.msg.me{background:var(--acc);color:var(--bg);margin-left:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.opt{border:1px solid var(--line);border-radius:12px;padding:13px}.opt.pick{border-color:var(--ok);background:var(--okbg)}
+.opt dl{margin:8px 0 12px}.opt dt{font-size:12px;color:var(--mute)}.opt dd{margin:0 0 6px;font-weight:500}
+.chat{display:flex;gap:8px;margin-top:10px}.chat input,textarea{flex:1;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+.empty{text-align:center;padding:60px 10px}.fab{position:fixed;right:max(18px,env(safe-area-inset-right,0px));bottom:max(18px,env(safe-area-inset-bottom,0px));display:flex;gap:8px;z-index:5}
+dialog{border:0;border-radius:16px;padding:22px;width:min(480px,92vw);background:var(--card);color:var(--ink)}dialog::backdrop{background:rgba(10,15,30,.55)}
+dialog textarea{width:100%;min-height:110px;margin:8px 0}.row{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
+.ex{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}.ex button{font:inherit;font-size:12.5px;border:1px solid var(--line);background:none;color:var(--mute);padding:3px 10px;border-radius:99px;cursor:pointer}
+.brief li{margin:2px 0}.star{background:none;border:0;cursor:pointer;font-size:18px;color:var(--mute);float:right}.star.on{color:#e0a100}
+</style></head><body><div class="wrap">
+<div class="top"><span class="logo">Orbit</span><button class="btn ghost sm" id="cred">Add credentials</button><button class="btn sm" id="newb">New task</button></div>
+<div class="hero"><div><h1>Hi Archana</h1><p>Send a request in plain words. We turn it into a clear brief and come back with options.</p></div>
+<div class="stats"><div><b>20</b><span>Days left in cycle</span></div><div><b id="sdone"></b><span>Tasks done</span></div><div><b id="shrs"></b><span>Hours saved</span></div></div></div>
+<div class="bar"><input class="search" id="q" placeholder="Search your tasks" aria-label="Search your tasks"><button class="btn ghost" id="pri">My priorities</button><div class="tabs"><button id="t1" class="on">Tasks</button><button id="t2">Projects</button></div></div>
+<div id="main"></div></div>
+<div class="fab"><button class="btn" onclick="openNew()">+ New task</button></div>
+<dialog id="dn"><h2 style="margin:0">What do you need?</h2><div class="mute">Keep it short. We fill in the details and ask only what is missing.</div>
+<textarea id="nt" placeholder="e.g. Get a quote from a house cleaner for next Friday"></textarea>
+<div class="ex"><button>Book a flight to Chicago next Thursday evening</button><button>Find a dentist near me, accepts Delta Dental</button></div>
+<div class="row"><button class="btn ghost" onclick="dn.close()">Cancel</button><button class="btn" onclick="submitNew()">Send request</button></div></dialog>
+<dialog id="dc"><h2 style="margin:0">Add credentials</h2><div class="mute">Share a login only when a task needs it (loyalty numbers, portals). Demo only: nothing here is stored or sent.</div>
+<div style="display:grid;gap:8px;margin-top:10px"><input class="search" placeholder="Service (e.g. Delta SkyMiles)"><input class="search" placeholder="Username or member number"><input class="search" type="password" placeholder="Password"></div>
+<div class="row"><button class="btn ghost" onclick="dc.close()">Close</button></div></dialog>
+<script>
+const $=s=>document.querySelector(s),dn=$('#dn'),dc=$('#dc');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tasks=[
+{id:1,title:'Flight to Detroit, Dec 1, as late as possible',proj:'Detroit conference',cat:'Travel',status:'ready',pri:true,hrs:1.5,
+brief:['Leave NYC on Tue Dec 1 in the evening or late night, from JFK or LGA','Time to reach the airport after your 6 PM conference','Wed early-morning backup only (EWR is fine)','Confirmed prices'],
+schema:['Route','Departs','Arrives','Time after 6 PM','Price','Fit'],
+opts:[{n:'LGA to DTW',f:['Nonstop','Tue 9:05 PM','Tue 10:57 PM','3 h 5 min','$214','Preferred']},{n:'JFK to DTW',f:['Nonstop','Tue 9:50 PM','Tue 11:48 PM','3 h 50 min','$189','Preferred']},{n:'EWR to DTW',f:['Nonstop','Wed 6:10 AM','Wed 8:05 AM','Next morning','$142','Backup only']}],
+thread:[['me','Get Siddhant to Detroit Dec 1 as late as possible. Conference ends at 6.'],['ai','Got it. I looked at evening and late flights from JFK and LGA that leave you enough time after 6 PM, plus an early Wednesday backup. Pick the one you like and I will hold the fare.']],hand:'We will hold the fare for 24 hours. No call needed.'},
+{id:2,title:'Quarterly house cleaning quote',proj:'Home admin',cat:'Home',status:'needs',pri:false,hrs:1,
+brief:['Quote from Heavenly Maids, every 3 months, first visit Oct 22','Price difference: one-time vs quarterly','Deck furniture cleaning included','They have cleaned this home before'],
+need:{q:'What is the service address?',a:'12 Alder Court, San Mateo, CA 94403'},
+schema:['Service','First visit','Price per visit','Deck furniture','Annual cost'],
+opts:[{n:'One-time clean',f:['Deep clean','Oct 22','$240','+$45','$285 once']},{n:'Quarterly plan',f:['Every 3 months','Oct 22','$195','+$45','$960 (4 visits)']}],
+thread:[['me','Get a quote from Heavenly Maids for quarterly cleaning starting Oct 22, plus deck furniture.'],['ai','One thing before I request the quote: what is the service address?']],hand:'A team member will call Heavenly Maids to confirm the Oct 22 slot.'},
+{id:3,title:'Will and trust attorney for Neha',proj:'Home admin',cat:'Legal',status:'ready',pri:false,hrs:2,
+brief:['Check whether recommendations were already sent (none found)','Will and trust specialists near San Mateo','Are in-person meetings required?','How many sessions are typical?'],
+schema:['Focus','Fees','Meetings','Typical sessions','Distance, rating'],
+opts:[{n:'Biddle Law',f:['Wills and trusts','Flat fee, cash discount','Email and Zoom only','2','2.7 mi, 5.0 (13)']},{n:'Singh Law Firm',f:['Estate planning only','Free consultation','Zoom or office','2 to 3','28.7 mi, 4.9 (1,054)']}],
+thread:[['me','Neha wants a will and trust attorney. Not sure if she has to meet in person.'],['ai','I found two options. Neither requires an in-person visit. Biddle Law is closer and flat-fee; Singh Law Firm is bigger and handles complex trusts.']],hand:'A team member will call to book the consultation.'}];
+let sel=1,tab=1,onlyPri=false,nid=4;
+const lab={ready:['Options ready','acc'],needs:['Needs your reply','warn'],working:['Working on it',''],done:['Done','ok']};
+function stats(){const d=tasks.filter(t=>t.status==='done');$('#sdone').textContent=d.length+'/'+tasks.length;$('#shrs').textContent=d.reduce((a,t)=>a+t.hrs,0)}
+function list(){const q=$('#q').value.toLowerCase();return tasks.filter(t=>(!onlyPri||t.pri)&&(t.title+t.proj).toLowerCase().includes(q))}
+function detail(t){if(!t)return'<div class="card empty">Select a task.</div>';
+ let h=`<div class="card"><button class="star ${t.pri?'on':''}" onclick="star(${t.id})" aria-label="Priority">★</button><h2>${esc(t.title)}</h2><span class="pill ${lab[t.status][1]}">${lab[t.status][0]}</span><span class="pill">${t.proj}</span>
+ <h3 style="margin-top:14px">What we understood</h3><ul class="brief" style="margin:0;padding-left:18px">${t.brief.map(b=>'<li>'+esc(b)+'</li>').join('')}</ul></div>
+ <div class="card"><h3>Conversation</h3>${t.thread.map(m=>`<div class="msg ${m[0]}">${esc(m[1])}</div>`).join('')}`;
+ if(t.status==='needs')h+=`<div class="chat"><input id="rep" placeholder="${esc(t.need.q)}"><button class="btn" onclick="reply(${t.id})">Send</button></div><div class="ex"><button onclick="$('#rep').value='${t.need.a}'">Use: ${esc(t.need.a)}</button></div>`;
+ if(t.status==='working')h+='<div class="mute">Working on it. We will post options here.</div>';
+ h+='</div>';
+ if(t.opts&&(t.status==='ready'||t.status==='done'))h+=`<div class="card"><h3>Your options</h3><div class="grid">${t.opts.map((o,j)=>`<div class="opt ${t.pick===j?'pick':''}"><b>${o.n}</b><dl>${t.schema.map((s,k)=>`<dt>${s}</dt><dd>${esc(o.f[k])}</dd>`).join('')}</dl><button class="btn sm ${t.pick===j?'':'ghost'}" ${t.status==='done'?'disabled':''} onclick="pick(${t.id},${j})">${t.pick===j?'Chosen':'Choose this'}</button></div>`).join('')}</div><div class="mute" style="margin-top:8px">Sample data for the demo.</div></div>`;
+ if(t.status==='done')h+=`<div class="card"><h3>Next step</h3>${t.hand}</div>`;
+ return h}
+function draw(){stats();$('#t1').className=tab===1?'on':'';$('#t2').className=tab===2?'on':'';$('#pri').className='btn '+(onlyPri?'':'ghost');
+ const L=list();
+ if(tab===2){const g={};L.forEach(t=>(g[t.proj]=g[t.proj]||[]).push(t));$('#main').innerHTML=Object.keys(g).length?`<div class="grid">${Object.keys(g).map(p=>`<div class="card"><h2>${esc(p)}</h2><div class="mute">${g[p].filter(t=>t.status==='done').length} of ${g[p].length} done</div>${g[p].map(t=>`<div style="margin-top:8px"><b>${esc(t.title)}</b><br><span class="pill ${lab[t.status][1]}">${lab[t.status][0]}</span></div>`).join('')}</div>`).join('')}</div>`:'<div class="card empty">No projects match.</div>';return}
+ if(!L.length){$('#main').innerHTML='<div class="card empty"><h2>No tasks yet</h2><p class="mute">Tell us what you need and we will take it from there.</p><button class="btn" onclick="openNew()">Add your first task</button></div>';return}
+ if(!L.find(t=>t.id===sel))sel=L[0].id;
+ $('#main').innerHTML=`<div class="cols"><div>${L.map(t=>`<button class="item ${t.id===sel?'on':''}" onclick="sel=${t.id};draw()"><b>${t.pri?'★ ':''}${esc(t.title)}</b><span class="pill ${lab[t.status][1]}">${lab[t.status][0]}</span><span class="mute">${t.cat}</span></button>`).join('')}</div><div>${detail(tasks.find(t=>t.id===sel))}</div></div>`}
+function star(id){const t=tasks.find(x=>x.id===id);t.pri=!t.pri;draw()}
+function pick(id,j){const t=tasks.find(x=>x.id===id);t.pick=j;t.status='done';t.thread.push(['me','I will take '+t.opts[j].n+'.'],['ai','Done. '+t.hand]);draw()}
+function reply(id){const t=tasks.find(x=>x.id===id),v=$('#rep').value.trim();if(!v)return;t.thread.push(['me',v],['ai','Thanks. Requesting the quote now.']);t.status='working';draw();setTimeout(()=>{t.status='ready';t.thread.push(['ai','The quote is back. One-time and quarterly pricing are below, side by side.']);draw()},1800)}
+function openNew(){dn.showModal()}
+function submitNew(){const v=$('#nt').value.trim();if(!v)return;dn.close();$('#nt').value='';const hasWhen=/\d|today|tomorrow|tonight|monday|tuesday|wednesday|thursday|friday|saturday|sunday|week|month/i.test(v);
+ const t={id:nid++,title:v.length>60?v.slice(0,57)+'...':v,proj:'Inbox',cat:'New',status:hasWhen?'working':'needs',pri:false,hrs:1,brief:['Request: '+v,'Deadline: '+(hasWhen?'taken from your message':'not given yet'),'Options will use the same fields so they are easy to compare'],need:{q:'When do you need this by?',a:'By this Friday'},opts:null,thread:[['me',v],['ai',hasWhen?'Got it. I am researching now and will post options here.':'Got it. One thing first: when do you need this by?']],hand:'We will confirm next steps.'};
+ tasks.unshift(t);sel=t.id;tab=1;draw()}
+$('#t1').onclick=()=>{tab=1;draw()};$('#t2').onclick=()=>{tab=2;draw()};$('#pri').onclick=()=>{onlyPri=!onlyPri;draw()};$('#q').oninput=draw;
+$('#newb').onclick=openNew;$('#cred').onclick=()=>dc.showModal();
+document.querySelectorAll('.ex button').forEach(b=>{if(b.closest('#dn'))b.onclick=()=>$('#nt').value=b.textContent});
+draw();
+</script></body></html>

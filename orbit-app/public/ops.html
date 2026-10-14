@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Orbit Ops – Project manager console</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap">
+<style>
+:root{--bg:#f3f5f9;--card:#fff;--ink:#101a33;--mute:#65708a;--line:#e1e6f0;--acc:#3452d9;--accbg:#e4e9fc;--ok:#127a4f;--okbg:#d8f3e6;--warn:#8a5a00;--warnbg:#ffefc2;--bad:#b3261e;--badbg:#fde3e1;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1222;--card:#151d33;--ink:#e9edf8;--mute:#93a0bd;--line:#26314d;--acc:#8ea2ff;--accbg:#1f2b55;--ok:#6fe0aa;--okbg:#10372a;--warn:#ffd36b;--warnbg:#3d2e08;--bad:#ff9a92;--badbg:#401a17}}
+:root[data-theme="dark"]{--bg:#0c1222;--card:#151d33;--ink:#e9edf8;--mute:#93a0bd;--line:#26314d;--acc:#8ea2ff;--accbg:#1f2b55;--ok:#6fe0aa;--okbg:#10372a;--warn:#ffd36b;--warnbg:#3d2e08;--bad:#ff9a92;--badbg:#401a17}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Plus Jakarta Sans",system-ui,sans-serif}
+.wrap{max-width:1200px;margin:auto;padding:0 18px 40px}
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:16px 0}.logo{font-weight:800;font-size:20px}
+.tabs{display:flex;gap:2px;margin-left:auto;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:3px;flex-wrap:wrap}
+.tabs button{font:inherit;border:0;background:none;color:var(--mute);padding:7px 14px;border-radius:8px;cursor:pointer}.tabs button.on{background:var(--accbg);color:var(--acc);font-weight:700}
+.btn{font:inherit;font-weight:700;border:0;border-radius:10px;padding:9px 15px;background:var(--acc);color:var(--bg);cursor:pointer}.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}.btn.sm{padding:5px 11px;font-size:13px}.btn:disabled{opacity:.4}
+button:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}.stat b{display:block;font-size:28px;line-height:1.15}.mute{color:var(--mute);font-size:13.5px}
+h2{font-size:18px;margin:0 0 4px}h3{font-size:14px;margin:0 0 8px}
+.cols{display:grid;grid-template-columns:360px 1fr;gap:14px;align-items:start}@media(max-width:860px){.cols{grid-template-columns:1fr}}
+.item{display:block;width:100%;text-align:left;font:inherit;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:8px;cursor:pointer}.item.on{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
+.pill{display:inline-block;font-size:12px;padding:1px 10px;border-radius:99px;background:var(--line);color:var(--mute);margin-right:6px}.pill.ok{background:var(--okbg);color:var(--ok)}.pill.warn{background:var(--warnbg);color:var(--warn)}.pill.bad{background:var(--badbg);color:var(--bad)}.pill.acc{background:var(--accbg);color:var(--acc)}
+.tr{display:grid;grid-template-columns:96px 1fr;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:14px}.tr:last-child{border:0}
+textarea{width:100%;min-height:96px;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+select{font:inherit;padding:5px 8px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.chk{font-size:14px;padding:2px 0}.chk.y::before{content:"✓ ";color:var(--ok);font-weight:700}.chk.n::before{content:"✗ ";color:var(--bad);font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--mute);font-weight:500}
+.q{border-left:3px solid var(--acc);padding-left:11px;margin:8px 0;white-space:pre-wrap}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.err{color:var(--bad);font-size:13.5px;margin-top:6px}.bar{height:8px;border-radius:4px;background:var(--acc);margin-top:4px}
+.ws{display:grid;grid-template-columns:210px 1fr 270px;gap:12px;align-items:start}@media(max-width:980px){.ws{grid-template-columns:1fr}}tr.clk{cursor:pointer}tr.clk.on{background:var(--accbg)}.hero2{background:linear-gradient(120deg,#3452d9,#7c3aed);color:#fff;border-radius:20px;padding:22px 24px;margin-bottom:14px}
+.hero2 h2{font-size:24px;margin:0}.hero2 .mini{opacity:.85;font-size:14px;margin:2px 0 12px}
+.inrow{display:flex;gap:8px}.inrow input{flex:1;font:inherit;padding:12px 14px;border:0;border-radius:12px;color:#101a33}
+.btn.w{background:#fff;color:#3452d9}.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.chips button{font:inherit;font-size:13px;color:#fff;background:rgba(255,255,255,.18);border:0;border-radius:99px;padding:5px 12px;cursor:pointer}.chips button:hover{background:rgba(255,255,255,.3)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.kpi{border-radius:16px;padding:13px 15px;border:1px solid var(--line);background:color-mix(in srgb,var(--kc) 13%,var(--card))}.kpi b{font-size:32px;line-height:1.1;display:block;color:var(--kc)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.tile{position:relative;text-align:left;font:inherit;color:inherit;border:1px solid var(--line);border-radius:16px;padding:16px 15px 12px;background:var(--card);cursor:pointer;display:flex;flex-direction:column;gap:7px;min-height:176px;overflow:hidden}
+.tile::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--tc,var(--line))}.tile:hover{border-color:var(--tc,var(--acc))}
+.tile .ans{font-size:14.5px;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}.tile .ft{margin-top:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.s-sent{--tc:var(--ok)}.s-asked{--tc:#d99100}.s-research{--tc:var(--acc)}.s-working{--tc:#8b5cf6}.s-call{--tc:#e11d74}
+.mt{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:color-mix(in srgb,var(--tc) 9%,var(--card))}.mt b{display:block}
+#dlg{width:min(1240px,96vw);max-height:92vh;overflow:auto;border:0;border-radius:18px;padding:16px;background:var(--bg);color:var(--ink)}#dlg::backdrop{background:rgba(10,15,30,.55)}.dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px}
+body{-webkit-font-smoothing:antialiased}:root{--ease:cubic-bezier(.2,.7,.2,1)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 84%,transparent);backdrop-filter:blur(10px)}
+.tile{transition:transform .2s var(--ease),box-shadow .2s var(--ease),border-color .2s}.tile:hover{transform:translateY(-3px);box-shadow:0 12px 26px -14px rgba(16,26,51,.4)}.tile:active{transform:scale(.99)}
+.tile.enter{animation:enter .42s var(--ease) both}.tile.flash{animation:flash .7s ease}
+@keyframes enter{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes flash{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--tc) 55%,transparent)}100%{box-shadow:0 0 0 14px transparent}}
+.sk{height:11px;border-radius:6px;background:linear-gradient(90deg,var(--line) 25%,color-mix(in srgb,var(--line) 40%,var(--card)) 50%,var(--line) 75%);background-size:200% 100%;animation:sh 1.2s linear infinite}.sk.s2{width:82%}.sk.s3{width:55%}
+@keyframes sh{to{background-position:-200% 0}}
+.fade{animation:fd .32s var(--ease)}@keyframes fd{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.kpi b{display:inline-block;transition:color .3s}.kpi b.pop{animation:pp .38s var(--ease)}@keyframes pp{50%{transform:scale(1.14)}}
+#dlg[open]{animation:dl .26s var(--ease)}@keyframes dl{from{opacity:0;transform:translateY(16px) scale(.98)}}#dlg::backdrop{animation:bd .26s ease}@keyframes bd{from{opacity:0}}
+.btn{transition:transform .12s,opacity .2s,background .2s}.btn:active{transform:scale(.97)}.tabs button{transition:background .2s,color .2s}.chips button{transition:background .2s}
+.inrow input:focus-visible{outline:3px solid rgba(255,255,255,.55)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style></head><body><div class="wrap" style="max-width:1320px">
+<div class="top"><span class="logo">Orbit Ops</span><span class="mute">Project manager console</span>
+<div class="tabs"><button id="b1" class="on">Queue</button><button id="b2">Human desk</button><button id="b3">Throughput</button><button id="b4">Categories</button><button id="b5">What is real</button></div></div>
+<div class="stats" id="stats"></div><div id="main"></div></div>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tag={R:['Rule','pill'],L:['Live AI','pill ok'],S:['Simulated','pill warn']};
+const CATS=[[12,'Bookings','Making reservations, contacting someone',1,1,1,'AI + call'],[13,'Calendar','Adding or editing calendar tasks',1,1,1,'Fully AI'],[9,'Camps','Summer and winter camps for kids',7,1,1,'AI + call'],[15,'Checklists','Checklist to help the client act on their end',3,1,1,'Fully AI'],[7,'Classes','Organized activities for children',3,1,1,'AI + call'],[6,'Family Activities','Hikes, museums, playgrounds',2,1,1,'Fully AI'],[19,'Follow-ups','Tasks the Minerva asked for a reminder on',7,0,0,'Fully AI'],[29,'Forms/Applications','Filling forms (school, health, camps)',5,1,1,'Fully AI'],[2,'Hotels','Hotels, Airbnbs, places to stay',2,1,1,'Fully AI'],[30,'Itinerary','Travel plans with pricing',3,1,1,'Fully AI'],[3,'Meal Planning','Meal plans, ideas, grocery lists',1,1,1,'Fully AI'],[20,'Parent','Parent task (container)',0,0,0,'Fully AI'],[10,'Postings','Job posting or ad to sell an item',1,1,1,'Fully AI'],[4,'Products','Product recommendations and ideas',2,1,1,'Fully AI'],[11,'Purchases','Buying a specific pre-decided item',1,1,1,'AI + call'],[16,'Reminder','Customer asks us to remind them',2,1,1,'Fully AI'],[1,'Restaurants','Restaurant recommendations',2,1,1,'Fully AI'],[27,'SP - Auto','Service providers for cars',4,1,1,'AI + call'],[25,'SP - Health','Medical care providers',5,1,1,'AI + call'],[23,'SP - Home','Home repairs and maintenance',3,1,1,'AI + call'],[28,'SP - Inquiry','Follow up with a specific provider',1,1,1,'AI + call'],[26,'SP - Other','Providers outside other categories',4,1,1,'AI + call'],[24,'SP - Pets','Pet care providers',3,1,1,'AI + call'],[18,'Team Task','Internal team work',1,0,0,'Human'],[22,'Tracker','Summarizing, tracking',1,0,1,'Fully AI'],[5,'Travel Transportation','Flights, rental cars, RVs',3,1,1,'AI + call'],[31,'SP - Events','Event providers, party packages, catering',4,1,1,'AI + call']];
+const PREM=['Itinerary','Forms/Applications'],cat=n=>CATS.find(c=>c[1]===n)||[0,n,'',0,1,1,'AI + call'];
+const tasks=[
+{id:1,title:'Flight NYC to Detroit, Dec 1, late as possible',cat:'Travel Transportation',plan:'Premium',due:20,status:'ready',tta:3,
+ raw:'Siddhant flies New York to Detroit Tue Dec 1, as late as possible. Conference ends ~6 PM, school Wednesday. Prefer evening from JFK or LGA; Wed early backup only (EWR ok). Confirm pricing.',
+ asks:['Tue evening/late from JFK or LGA','Time to reach airport after 6 PM','Wed early backup, EWR ok','Confirmed pricing'],missing:[],human:null,delivery:'inline',
+ draft:'Hi! Here are 3 options for Dec 1. A: LGA 9:05 PM, $214. B: JFK 9:50 PM, $189. Backup C: EWR Wed 6:10 AM, $142. Tell me which you prefer and I will hold the fare.',
+ research:['Searched evening and late JFK/LGA to DTW flights','Dropped departures before 8 PM (too tight after 6 PM)','Priced three options with the same fields'],notes:['Category set to Travel Transportation','Not a premium-only task'],
+ trace:[['R','Request arrived, task started automatically'],['S','Split into 4 asks'],['R','Required details present'],['S','Searched and priced 3 flights'],['R','Quality gate passed, reply drafted inline']]},
+{id:2,title:'Quarterly cleaning quote, Heavenly Maids',cat:'SP - Home',plan:'Essential',due:15,status:'asked',tta:4,
+ raw:'Get a quote from Heavenly Maids for cleaning every 3 months, first service Oct 22. Show one-time vs quarterly price. Add deck furniture. They have serviced this home before.',
+ asks:['Quarterly from Oct 22','One-time vs quarterly price','Deck furniture','Prior service noted'],missing:['Service address'],question:'Hi! To request your Heavenly Maids quote I need the service address. Is it the same home they cleaned before?',human:{type:'Call',desc:'Call Heavenly Maids to confirm the Oct 22 slot',who:'',done:false,locked:true},delivery:'inline',
+ draft:'(Waiting for the service address before requesting the quote.)',research:[],notes:['Category set to SP - Home','Paused: address missing, customer already asked'],
+ trace:[['R','Request arrived, task started automatically'],['S','Split into 4 asks'],['R','Gate failed: service address missing'],['R','Customer asked immediately, not marked ready for review']]},
+{id:3,title:'Will and trust attorney for Neha',cat:'SP - Other',plan:'Premium',due:-30,status:'ready',tta:5,
+ raw:'Neha wants a will and trust attorney. Unsure if meetings must be in person or how many sessions. Office location is a soft preference. Check earlier recommendations first.',
+ asks:['Check prior recommendations','Specialists near her','In-person required?','Typical session count'],missing:[],human:{type:'Appointment',desc:'Book free consultation after Neha picks',who:'',done:false,locked:true},delivery:'inline',
+ draft:'Hi Neha, two attorneys: Biddle Law (2.7 mi, flat fee, email and Zoom) and Singh Law Firm (free consult, Zoom or office). Neither requires an in-person visit; expect 2 to 3 sessions.',
+ research:['No earlier recommendations found in correspondence','Two will and trust firms near San Mateo','Meeting format and sessions pulled from each firm site'],notes:['Category set to SP - Other','Past due: was waiting for a person to pick it up'],
+ trace:[['R','Request arrived, task started automatically'],['S','Searched prior correspondence: none'],['S','Researched 2 firms'],['R','Quality gate passed, reply drafted inline']]}];
+let sel=1,tab=1,nid=4,busy=false,err='';
+const key=t=>t.status==='sent'&&t.human&&!t.human.locked&&!t.human.done?'call':t.status;
+const stat=t=>({sent:['Answered by AI','ok'],asked:['Asked customer','warn'],research:['Queued for research','acc'],working:['AI working',''],call:['Needs a call','bad'],ready:['Ready','acc']})[key(t)];
+const late=t=>t.status!=='sent'&&t.due<0,find=id=>tasks.find(x=>x.id===id);
+function topStats(){const n=tasks.length,done=tasks.filter(t=>t.status!=='working'),k=x=>tasks.filter(t=>key(t)===x).length,avg=done.length?Math.round(done.reduce((a,t)=>a+t.tta,0)/done.length):0;
+ $('#stats').className='kpis';$('#stats').innerHTML=[['Answered on arrival',done.length+'/'+n,'var(--ok)'],['Avg time to answer',avg+' s','var(--acc)'],['Waiting on customer',k('asked'),'#d99100'],['Queued for research',k('research'),'#7c3aed'],['Need a call',k('call'),'#e11d74'],['Past due',tasks.filter(late).length,'var(--bad)']].map(x=>`<div class="kpi" style="--kc:${x[2]}"><span class="mute">${x[0]}</span><b>${x[1]}</b></div>`).join('')}
+function checks(t){const prem=PREM.includes(t.cat)&&t.plan==='Essential';return[[!t.missing.length,'No required detail missing'],[!prem,prem?'Premium-only task on an Essential plan: needs upgrade or approval':'Task is allowed on the customer plan'],[t.asks.length>0,t.asks.length+' asks tracked and answered'],[t.delivery==='inline','Delivered inline, no doc needed'],[true,'Human steps limited to calls and bookings']]}
+function ws(t){if(!t)return'';const c=cat(t.cat),h=t.human;
+ const row=(k,v)=>`<div style="margin-bottom:10px"><div class="mute">${k}</div><b>${v}</b></div>`;
+ return`<div class="ws"><div class="card">${row('Task ID',29000+t.id)}${row('Category',esc(t.cat))}${row('Status',`<span class="pill ${stat(t)[1]}">${stat(t)[0]}</span>${late(t)?'<span class="pill bad">Past due</span>':''}`)}${row('Plan',t.plan)}${row('Typical length',c[3])}${row('Billable',c[4]?'Yes':'No')}${row('Shared with client',c[5]?'Yes':'No')}${row('Handled by',h?'AI + a person for the '+h.type.toLowerCase():'AI only')}${row('First action',t.tta+' s after arrival')}</div>
+ <div><div class="card"><h3>Client thread</h3><div class="mute">${esc(t.raw)}</div><h3 style="margin-top:12px">AI answer (sent automatically)</h3><div class="q">${t.missing.length?esc(t.question):esc(t.draft)}</div>
+ <div class="row">${t.status==='asked'?`<div class="row" style="width:100%"><input id="cr" placeholder="Demo: type the customer's reply" style="flex:1;min-width:180px;font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)"><button class="btn ghost sm" onclick="answered(${t.id})">Send customer reply</button></div>`:''}</div></div>
+ <div class="card"><h3>Task research</h3>${t.research.length?t.research.map(r=>`<div class="tr"><span class="pill ${t.live?'ok':'warn'}">${t.live?'Live search':'Simulated'}</span><span>${esc(r)}</span></div>`).join(''):'<div class="mute">No research yet. Connect a search tool to fill this automatically.</div>'}</div>
+ ${t.debate?`<div class="card"><h3>Agent debate</h3>${t.debate.map(d=>`<div class="tr"><span class="pill acc">${esc(d.role.split(':')[0])}</span><span>${d.role.includes(':')?'<b>'+esc(d.role.split(': ')[1])+'</b><br>':''}${esc(d.text)}</span></div>`).join('')}</div>`:''}<div class="card"><h3>Quality gate</h3>${checks(t).map(c=>`<div class="chk ${c[0]?'y':'n'}">${c[1]}</div>`).join('')}</div></div>
+ <div class="card"><h3>Internal notes</h3>${t.notes.map(n=>`<div class="tr"><span class="pill acc">AI note</span><span>${esc(n)}</span></div>`).join('')}<h3 style="margin-top:12px">Audit trail</h3>${t.trace.map(e=>`<div class="tr"><span class="${tag[e[0]][1]}" style="height:fit-content;text-align:center">${tag[e[0]][0]}</span><span>${esc(e[1])}</span></div>`).join('')}</div></div>`}
+const SAMPLES=['Book a pediatric vision appointment','Gutters are clogged','Plan lunchboxes for the next week','How do I rewire a lamp?','Find someone to rake leaves'];
+function tile(t){const w=t.status==='working';return`<button class="tile s-${key(t)}" onclick="openT(${t.id})"><div class="ft" style="margin:0"><span class="pill acc">${esc(t.cat)}</span>${t.live?'<span class="pill ok">Live AI</span>':''}</div><b>${esc(t.title)}</b><div class="ans">${w?'AI is reading this now…':esc(t.draft)}</div><div class="ft"><span class="pill ${stat(t)[1]}">${stat(t)[0]}</span><span class="mute">${w?'':'in '+t.tta+' s'}</span></div></button>`}
+function queue(){return`<div class="hero2"><h2>Send a request. AI answers on arrival.</h2><div class="mini">Nobody picks it up. A person joins only when a call or booking is needed.</div>
+ <div class="inrow"><input id="raw" placeholder="Type a customer request" onkeydown="if(event.key==='Enter')submitRaw()"><button class="btn w" onclick="submitRaw()">Send</button></div><div class="chips">${SAMPLES.map((x,i)=>`<button onclick="ingest(SAMPLES[${i}])">${x}</button>`).join('')}</div>${err?`<div style="margin-top:8px;font-weight:700">${esc(err)}</div>`:''}</div>
+ <div class="tiles">${tasks.map(tile).join('')}</div>`}
+function desk(){const hs=tasks.filter(t=>t.human);
+ return`<div class="card"><h2>Human desk</h2><div class="mute">People appear here only to make calls and book appointments, after the customer has chosen.</div>
+ <table><tr><th>Task</th><th>Step</th><th>Status</th><th>Assigned to</th><th></th></tr>${hs.map(t=>{const h=t.human;return`<tr><td>${esc(t.title)}</td><td><span class="pill acc">${h.type}</span> ${esc(h.desc)}</td><td>${h.done?'<span class="pill ok">Done</span>':h.locked?'<span class="pill">Waiting for customer choice</span>':'<span class="pill warn">Ready to call</span>'}</td>
+ <td><select onchange="find(${t.id}).human.who=this.value" ${h.locked||h.done?'disabled':''}>${['','Priya','Marcus','Dana'].map(w=>`<option ${h.who===w?'selected':''}>${w||'Unassigned'}</option>`).join('')}</select></td>
+ <td>${h.locked?`<button class="btn ghost sm" onclick="find(${t.id}).human.locked=false;draw()">Simulate customer choice</button>`:h.done?'':`<button class="btn sm" onclick="find(${t.id}).human.done=true;draw()">Mark done</button>`}</td></tr>`}).join('')||'<tr><td colspan=5>Nothing needs a person right now.</td></tr>'}</table></div>`}
+function thru(){const mx=Math.max(...tasks.map(t=>t.tta));
+ return`<div class="card"><h2>Time to first action</h2><div class="mute">Goal: every task starts on arrival, with nobody needing to pick it up.</div>${tasks.map(t=>`<div style="margin-top:10px"><div class="row" style="margin:0"><b>${esc(t.title)}</b><span class="mute">${t.tta}s</span></div><div class="bar" style="width:${Math.max(4,t.tta/mx*100)}%"></div></div>`).join('')}</div>
+ <div class="card"><h2>Why tasks go past due, and the guard for each</h2><table><tr><th>Cause</th><th>Guard</th></tr>
+ <tr><td>Task sits unstarted</td><td>Starts on arrival; first-action time is tracked</td></tr><tr><td>Waiting on missing info (address, dates)</td><td>Customer asked at once; counted under "Waiting on customer"</td></tr>
+ <tr><td>Options not comparable</td><td>Same fields, same order, checked by the gate</td></tr><tr><td>Answer in a doc instead of inline</td><td>Gate flags it unless a project or table needs it</td></tr>
+ <tr><td>Reply misses the ask</td><td>Every ask tracked and mapped to the draft</td></tr><tr><td>Premium task on Essential plan</td><td>Gate flags it before any work starts</td></tr></table></div>`}
+function cats(){const lv=[['Fully AI','var(--ok)','AI answers and finishes. No person.'],['AI + call','var(--acc)','AI answers; a person only makes the call or booking.'],['Human','var(--bad)','Internal work, not customer-facing.']];
+ return`<div class="tiles" style="margin-bottom:14px"><div class="tile" style="--tc:var(--acc);cursor:default"><b>Essential · $249/mo</b><div class="mute">Up to 12 tasks · 2 meetings a month · 72 h turnaround · no premium tasks</div></div><div class="tile" style="--tc:#7c3aed;cursor:default"><b>Premium · $399/mo</b><div class="mute">Up to 20 tasks · weekly meetings · 48 h · nanny search, government paperwork, full travel planning</div></div><div class="tile" style="--tc:var(--ok);cursor:default"><b>Six service areas</b><div class="mute">Activities · Home · Travel · Events · Appointments · Everything else (from minerva.day)</div></div></div>
+ ${lv.map(l=>{const L=CATS.filter(c=>c[6]===l[0]);return`<div class="card" style="--tc:${l[1]}"><h2>${l[0]} <span class="mute">${L.length} categories</span></h2><div class="mute" style="margin-bottom:10px">${l[2]} Proposed, not Minerva's data.</div><div class="tiles" style="grid-template-columns:repeat(auto-fill,minmax(190px,1fr))">${L.map(c=>`<div class="mt"><b>${c[1]}${PREM.includes(c[1])?' <span class="pill warn">Premium</span>':''}</b><span class="mute">${c[2]}</span><div class="mute">Typical length ${c[3]} · ${c[4]?'billed':'not billed'}</div></div>`).join('')}</div></div>`}).join('')}
+ <div class="mute">${CATS.length} of 31 categories were visible in your screenshots.</div>`}
+function real(){return`<div class="card"><h2>What is real and what is simulated</h2><div class="mute">Be clear with stakeholders about this before the demo.</div>
+ <table><tr><th>Part</th><th>Status</th></tr>
+ <tr><td>Intake on the Queue tab: category, asks, missing details, clarifying question, human step</td><td><span class="pill ok">Live AI</span> real Claude call</td></tr>
+ <tr><td>Past-due tracking, plan check, quality gate, human desk, category table</td><td><span class="pill">Rule</span> real code, no AI</td></tr>
+ <tr><td>Research and options for the three example tasks</td><td><span class="pill warn">Simulated</span> sample data</td></tr>
+ <tr><td>Web research, flight prices, calling vendors, booking, sending replies</td><td><span class="pill warn">Not built</span></td></tr></table>
+ <h3 style="margin-top:14px">To make research live</h3><div class="mute">Add a backend running an AI agent with web search and flight/places APIs. It writes into the same Task research and Draft reply panes, and sends the reply by email, SMS or WhatsApp.</div></div>`}
+function draw(){topStats();for(let i=1;i<=5;i++)$('#b'+i).className=tab==i?'on':'';$('#main').innerHTML=[queue,desk,thru,cats,real][tab-1]()}
+function draw(){topStats();for(let i=1;i<=5;i++)$('#b'+i).className=tab==i?'on':'';$('#main').innerHTML=[queue,desk,thru,cats,real][tab-1]();const d=$('#dlg');if(d.open)d.innerHTML=dh()}
+const dh=()=>{const t=find(sel);return`<div class="dh"><h2 style="margin:0">${esc(t.title)}</h2><button class="btn ghost sm" onclick="dlg.close()">Close</button></div>`+ws(t)};
+function openT(id){sel=id;$('#dlg').innerHTML=dh();$('#dlg').showModal()}
+function submitRaw(){const v=$('#raw').value;ingest(v)}
+async function ingest(raw){raw=(raw||'').trim();if(!raw)return;err='';const t={id:nid++,title:raw.slice(0,48),cat:'Other',plan:'Essential',due:60,status:'working',tta:0,raw,asks:[],missing:[],question:'',delivery:'inline',live:true,draft:'',research:[],notes:[],human:null,trace:[['R','Request arrived, AI started automatically']]};tasks.unshift(t);draw();const t0=Date.now();
+ try{const r=await askAI(`You are the first responder for a family concierge service. AI does all research; people only make calls and book appointments. Return ONLY JSON with keys: title (max 7 words), category (exactly one of: ${CATS.map(c=>c[1]).join(', ')}), asks (2-4 short strings), missing (essential details NOT stated; empty array if none), mode ("answer" if you can fully answer from general knowledge, "ask" if an essential detail is missing, "research" if it needs live web data such as prices, availability or local providers), answer (max 45 words, crisp, no greeting, no filler. mode answer: the actual answer. mode ask: one question covering all missing details. mode research: one line stating exactly what you will compare and what the customer gets), delivery ("inline" unless a comparison table or multi-task project is needed, then "doc"), human_step (null, or {type:"Call"|"Appointment", desc:short string}), reason (one sentence on the category).\nSafety: if the request hints at a medical emergency (heavy or non-stopping bleeding, chest pain, trouble breathing, severe injury), the answer must begin with: If this is an emergency, call your local emergency number now. Then continue normally.\n\nRequest: ${raw}`);
+  const m=r.missing||[],c=cat(r.category),mode=m.length&&r.mode!=='answer'?'ask':r.mode;
+  Object.assign(t,{title:r.title||t.title,cat:c[1],asks:r.asks||[],missing:mode==='ask'?(m.length?m:['detail']):[],question:r.answer||'',draft:r.answer||'',delivery:r.delivery||'inline',tta:Math.max(1,Math.round((Date.now()-t0)/1000)),status:mode==='ask'?'asked':mode==='research'?'research':'sent',
+   human:r.human_step?{type:r.human_step.type,desc:r.human_step.desc,who:'',done:false,locked:true}:null,notes:['Category: '+c[1]+'. '+(r.reason||''),'Typical length for this category: '+c[3]]});
+  t.trace.push(['L','Claude chose "'+c[1]+'" and split the request into '+t.asks.length+' asks'],['L','Claude mode: '+mode],['R',mode==='research'?'Holding answer sent; research needs a search tool (not connected)':'Answer sent automatically (simulated: no email/SMS channel connected)']);if(mode==='research')research(t)
+ }catch(e){tasks.splice(tasks.indexOf(t),1);err=e&&e.code==='not_granted'?'Permission to use Claude was declined.':e&&e.code==='rate_limited'?'Rate limited. Wait a moment and retry.':(e&&e.message)||'Analysis failed.'}
+ draw()}
+function answered(id){const t=find(id),inp=$('#cr'),v=(inp&&inp.value.trim())||'';t.missing=[];
+ if(t.live){const add=v||'Near San Mateo, this week, has insurance';t.raw+=' Customer added: '+add;t.trace.push(['R','Customer replied: '+add],['R','AI resumed automatically']);t.status='research';t.draft='Searching now.';draw();research(t)}
+ else{t.trace.push(['R','Customer replied, AI resumed automatically']);t.status='sent';t.draft='Heavenly Maids: one-time $240, quarterly $195 a visit, deck furniture +$45. Reply Q to book Oct 22.';t.research=['Quote requested with address and deck add-on (simulated)'];draw()}}
+document.body.insertAdjacentHTML('beforeend','<dialog id="dlg"></dialog>');
+Object.assign(tasks[0],{status:'sent',draft:'LGA 9:05 PM $214 · JFK 9:50 PM $189 · Backup: EWR Wed 6:10 AM $142. Reply A, B or C and I hold the fare.'});
+Object.assign(tasks[1],{draft:'Need the service address for your quote. Same home as before?',question:'Need the service address for your quote. Same home as before?'});
+Object.assign(tasks[2],{status:'sent',draft:'Biddle Law (2.7 mi, flat fee) or Singh Law (free consult). Both work over Zoom; expect 2 to 3 sessions. Reply 1 or 2.'});
+const parseJ=t=>JSON.parse(String(t).replace(/```json|```/g,'').trim().match(/\{[\s\S]*\}/)[0]);
+async function askAI(prompt,search){const c=window.claude;
+ if(c&&typeof c.use==='function'){if(search)throw Error('Web search needs the backend');const sm=await c.use('sample');if(!sm)throw{message:'Live AI is not available in this view. Open the published page from claude.ai.'};return sm.json(prompt,{modelTier:'quick',cache:false})}
+ if(c&&typeof c.complete==='function'){if(search)throw Error('Web search needs the backend');return parseJ(await c.complete(prompt))}
+ const r=await fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,search})});let j;try{j=await r.json()}catch(e){throw{message:'No AI available here. Run orbit-backend.js or open the page from claude.ai.'}}
+ if(!r.ok)throw Error(j.error);return parseJ(j.text)}
+async function research(t){try{if(window.claude)throw Error('backend');
+  const x=await fetch('/api/debate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({raw:t.raw,asks:t.asks})}),r=await x.json().catch(()=>{throw Error('Backend replied with a web page, not data. Restart the newest server.js')});if(!x.ok)throw Error(r.error);
+  t.research=[...r.options.map(o=>o.name+': '+o.fields.join(' · ')),...(r.sources||[]).slice(0,3).map(u=>'Source: '+u)];t.debate=r.transcript;t.draft=r.answer;t.status='sent';
+  t.trace.push(['L','Agent debate: '+r.options.length+' scouts, critic, judge, search via '+(r.search||'?')+' ('+r.confidence+' confidence)'],['R','Answer sent automatically (simulated channel)'])}catch(e){const off=e.message==='backend';t.draft=off?'Queued for research. Run orbit-backend.js to search automatically.':'Research failed: '+(e.message||'unknown error');t.trace.push(['R',off?'Research backend not connected; task stays queued':'Research failed: '+(e.message||'unknown')])}draw()}
+const tileInner=t=>{const w=t.status==='working';return`<div class="ft" style="margin:0"><span class="pill acc">${esc(t.cat)}</span>${t.live?'<span class="pill ok">Live AI</span>':''}</div><b>${esc(t.title)}</b>${w?'<div class="sk"></div><div class="sk s2"></div><div class="sk s3"></div>':`<div class="ans">${esc(t.draft)}</div>`}<div class="ft"><span class="pill ${stat(t)[1]}">${w?'AI reading, sorting, drafting':stat(t)[0]}</span><span class="mute">${w?'':'in '+t.tta+' s'}</span></div>`};
+function paintTiles(){const box=$('#tiles');[...box.children].forEach(e=>{if(!tasks.some(t=>t.id===+e.dataset.id))e.remove()});
+ tasks.forEach((t,i)=>{let e=box.querySelector(`[data-id="${t.id}"]`);const h=tileInner(t);
+  if(!e){e=document.createElement('button');e.dataset.id=t.id;e.className='tile enter';e.onclick=()=>openT(t.id);e.innerHTML=h;e._h=h;e.addEventListener('animationend',()=>e.classList.remove('enter'),{once:true})}
+  else if(e._h!==h){e.innerHTML=h;e._h=h;e.classList.remove('flash');void e.offsetWidth;e.classList.add('flash')}
+  [...e.classList].filter(x=>x.startsWith('s-')).forEach(x=>e.classList.remove(x));e.classList.add('s-'+key(t));
+  if(box.children[i]!==e)box.insertBefore(e,box.children[i]||null)})}
+function topStats(){const n=tasks.length,done=tasks.filter(t=>t.status!=='working'),k=x=>tasks.filter(t=>key(t)===x).length,avg=done.length?Math.round(done.reduce((a,t)=>a+t.tta,0)/done.length):0;
+ const v=[['Answered on arrival',done.length+'/'+n,'var(--ok)'],['Avg time to answer',avg+' s','var(--acc)'],['Waiting on customer',k('asked'),'#d99100'],['Queued for research',k('research'),'#7c3aed'],['Need a call',k('call'),'#e11d74'],['Past due',tasks.filter(late).length,'var(--bad)']],box=$('#stats');box.className='kpis';
+ if(box.children.length!==v.length)box.innerHTML=v.map(x=>`<div class="kpi" style="--kc:${x[2]}"><span class="mute">${x[0]}</span><br><b></b></div>`).join('');
+ v.forEach((x,i)=>{const b=box.children[i].querySelector('b');if(b.textContent!==String(x[1])){const first=!b.textContent;b.textContent=x[1];if(!first){b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')}}})}
+let lastTab=0,v1,v2;
+function draw(){topStats();for(let i=1;i<=5;i++)$('#b'+i).className=tab==i?'on':'';
+ if(!v1){$('#main').innerHTML='<section id="v1"></section><section id="v2" hidden></section>';v1=$('#v1');v2=$('#v2');
+  v1.innerHTML=`<div class="hero2"><h2>Send a request. AI answers on arrival.</h2><div class="mini">Nobody picks it up. A person joins only when a call or booking is needed.</div><div class="inrow"><input id="raw" placeholder="Type a customer request" aria-label="Customer request"><button class="btn w" id="sendb">Send</button></div><div class="chips">${SAMPLES.map((x,i)=>`<button data-i="${i}">${x}</button>`).join('')}</div><div id="err" style="margin-top:8px;font-weight:700"></div></div><div class="tiles" id="tiles"></div>`;
+  $('#raw').onkeydown=e=>{if(e.key==='Enter')submitRaw()};$('#sendb').onclick=submitRaw;v1.querySelectorAll('.chips button').forEach(b=>b.onclick=()=>ingest(SAMPLES[+b.dataset.i]))}
+ const show=tab===1?v1:v2;v1.hidden=tab!==1;v2.hidden=tab===1;
+ if(tab===1){$('#err').textContent=err;paintTiles()}else v2.innerHTML=[0,desk,thru,cats,real][tab-1]();
+ if(lastTab!==tab){show.classList.remove('fade');void show.offsetWidth;show.classList.add('fade');lastTab=tab}
+ const d=$('#dlg');if(d.open){const h=dh();if(d._h!==h){const sc=d.scrollTop;d.innerHTML=h;d._h=h;d.scrollTop=sc}}}
+function openT(id){sel=id;const d=$('#dlg');d.innerHTML=dh();d._h=dh();d.showModal()}
+function submitRaw(){const i=$('#raw'),x=i.value;i.value='';ingest(x);i.focus()}
+for(let i=1;i<=5;i++)$('#b'+i).onclick=()=>{tab=i;draw()};draw();
+</script></body></html>
