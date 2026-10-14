@@ -26,22 +26,33 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
 const log = (...a) => console.log(new Date().toISOString().slice(11, 19), ...a);
 
 // ---- Model: Gemini (free tier) or Claude ---------------------------------
+const GEMINI_MODELS = [GEMINI_MODEL, ...(process.env.GEMINI_FALLBACKS || 'gemini-3.5-flash-lite').split(',').map(x => x.trim()).filter(Boolean)];
 async function gemini(prompt) {
   if (!key('GEMINI_API_KEY')) throw new Error('GEMINI_API_KEY is missing (put it in .env)');
-  for (let attempt = 0; attempt < 3; attempt++) {
-    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key('GEMINI_API_KEY') },
-      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: 'application/json' } }),
-    });
-    if (r.status === 429 && attempt < 2) { log('Gemini rate limited, retrying'); await wait(5000 * (attempt + 1)); continue; }
-    if (r.status === 429) throw new Error('Gemini free-tier limit reached. Wait a minute, or set GEMINI_MODEL to another model.');
-    if (!r.ok) throw new Error(`Gemini ${r.status}: ${(await r.text()).slice(0, 300)}`);
-    const j = await r.json(), c = j.candidates?.[0];
-    const text = (c?.content?.parts || []).map(p => p.text || '').join('');
-    if (!text) throw new Error('Gemini returned no text (reason: ' + (c?.finishReason || j.promptFeedback?.blockReason || 'unknown') + ')');
-    return text;
+  let lastErr;
+  for (const model of GEMINI_MODELS) {                       // main model first, then fallbacks
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key('GEMINI_API_KEY') },
+        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: 'application/json' } }),
+      });
+      if (r.status === 404) { lastErr = new Error(`Gemini model "${model}" not found`); break; }   // skip to next model
+      if (r.status === 429 || r.status >= 500) {                                                    // busy or rate limited: retry
+        lastErr = new Error(`Gemini ${r.status} on ${model}`);
+        log(`Gemini ${r.status} on ${model}, attempt ${attempt + 1} of 3`);
+        if (attempt < 2) await wait(2500 * (attempt + 1));
+        continue;
+      }
+      if (!r.ok) throw new Error(`Gemini ${r.status}: ${(await r.text()).slice(0, 300)}`);
+      const j = await r.json(), c = j.candidates?.[0];
+      const text = (c?.content?.parts || []).map(p => p.text || '').join('');
+      if (!text) throw new Error('Gemini returned no text (reason: ' + (c?.finishReason || j.promptFeedback?.blockReason || 'unknown') + ')');
+      if (model !== GEMINI_MODEL) log(`Answered by fallback model ${model}`);
+      return text;
+    }
   }
+  throw new Error((lastErr?.message || 'Gemini failed') + '. Google is busy or the free limit is hit. Try again in a minute.');
 }
 
 let claude;
@@ -112,7 +123,8 @@ app.post('/api/debate', async (req, res) => {
     const { raw, asks = [] } = req.body, need = asks.join('; ');
     log('Debate started:', String(raw).slice(0, 70));
 
-    const settled = await Promise.allSettled(LENSES.map(async lens => {
+    const settled = await Promise.allSettled(LENSES.map(async (lens, i) => {
+      await wait(i * 800);                                    // stagger scouts so they do not hit the model at once
       const task = `You are a research agent optimizing for: ${lens}. Request: ${raw}. Must satisfy: ${need}.
 Return ONLY JSON {"pick":{"name":string,"fields":[4 short strings: price, timing or availability, key detail, distance or rating; write "unknown" if the evidence does not say],"why":max 25 words},"sources":[urls]}`;
       if (PROVIDER === 'claude') return J(await call(task + '\nUse web search.', true));
