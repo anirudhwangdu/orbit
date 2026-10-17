@@ -1,222 +1,160 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Orbit – Your tasks</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap">
+<title>Orbit – Ask for help</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap">
 <style>
-:root{--bg:#f4f6fb;--card:#fff;--ink:#101a33;--mute:#65708a;--line:#e1e6f0;--acc:#3452d9;--accbg:#e4e9fc;--ok:#127a4f;--okbg:#d8f3e6;--warn:#8a5a00;--warnbg:#ffefc2;--hero:#101a33;--herotx:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1222;--card:#151d33;--ink:#e9edf8;--mute:#93a0bd;--line:#26314d;--acc:#8ea2ff;--accbg:#1f2b55;--ok:#6fe0aa;--okbg:#10372a;--warn:#ffd36b;--warnbg:#3d2e08;--hero:#1b2750}}
-:root[data-theme="dark"]{--bg:#0c1222;--card:#151d33;--ink:#e9edf8;--mute:#93a0bd;--line:#26314d;--acc:#8ea2ff;--accbg:#1f2b55;--ok:#6fe0aa;--okbg:#10372a;--warn:#ffd36b;--warnbg:#3d2e08;--hero:#1b2750}
+:root{--bg:#f3f0e8;--glass:rgba(255,255,255,.7);--g2:rgba(255,255,255,.92);--line:rgba(20,22,40,.13);--ink:#14172a;--mute:#5b6379;--gold:#9a6e16;--acc:#0e7a68;--vio:#5b4bd6;--ok:#2d7a14;--warn:#9a6200;--bad:#c0273d;--glow:rgba(14,122,104,.22);--on:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#070910;--glass:rgba(255,255,255,.05);--g2:rgba(255,255,255,.08);--line:rgba(255,255,255,.11);--ink:#eef1f8;--mute:#8b95ab;--gold:#e6c98a;--acc:#7dd3c0;--vio:#9a8cff;--ok:#9be37a;--warn:#f4c15d;--bad:#ff7a8c;--glow:rgba(125,211,192,.26);--on:#06201b}}
+:root[data-theme="dark"]{--bg:#070910;--glass:rgba(255,255,255,.05);--g2:rgba(255,255,255,.08);--line:rgba(255,255,255,.11);--ink:#eef1f8;--mute:#8b95ab;--gold:#e6c98a;--acc:#7dd3c0;--vio:#9a8cff;--ok:#9be37a;--warn:#f4c15d;--bad:#ff7a8c;--glow:rgba(125,211,192,.26);--on:#06201b}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 "Plus Jakarta Sans",system-ui,sans-serif}
-.wrap{max-width:1100px;margin:auto;padding:0 18px 90px}
-.top{display:flex;align-items:center;gap:10px;padding:16px 0}.logo{font-weight:800;font-size:20px;margin-right:auto}
-.btn{font:inherit;font-weight:700;border:0;border-radius:10px;padding:10px 16px;background:var(--acc);color:var(--bg);cursor:pointer}
-.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}.btn.sm{padding:6px 12px;font-size:13px}.btn:disabled{opacity:.4}
-button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-.hero{background:var(--hero);color:var(--herotx);border-radius:18px;padding:22px 24px;display:flex;gap:24px;flex-wrap:wrap;align-items:center}
-.hero h1{margin:0;font-size:26px;font-weight:800}.hero p{margin:2px 0 0;opacity:.75;font-size:14px}
-.stats{display:flex;gap:26px;margin-left:auto}.stats div{text-align:left}.stats b{display:block;font-size:30px;line-height:1.1}.stats span{font-size:12.5px;opacity:.75}
-.bar{display:flex;gap:10px;margin:18px 0 12px;flex-wrap:wrap}
-.search{flex:1;min-width:200px;font:inherit;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
-.tabs{display:flex;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:3px}.tabs button{font:inherit;border:0;background:none;color:var(--mute);padding:7px 16px;border-radius:8px;cursor:pointer}.tabs button.on{background:var(--accbg);color:var(--acc);font-weight:700}
-.cols{display:grid;grid-template-columns:350px 1fr;gap:16px;align-items:start}@media(max-width:850px){.cols{grid-template-columns:1fr}}
-.item{display:block;width:100%;text-align:left;font:inherit;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer}
-.item.on{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}.item b{display:block}
-.pill{display:inline-block;font-size:12px;font-weight:500;padding:1px 10px;border-radius:99px;background:var(--line);color:var(--mute);margin-right:6px}
-.pill.ok{background:var(--okbg);color:var(--ok)}.pill.warn{background:var(--warnbg);color:var(--warn)}.pill.acc{background:var(--accbg);color:var(--acc)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:12px}
-.card h2{margin:0 0 4px;font-size:19px}.card h3{margin:0 0 8px;font-size:14px}.mute{color:var(--mute);font-size:13.5px}
-.msg{padding:10px 13px;border-radius:12px;margin:8px 0;max-width:92%;white-space:pre-wrap}.msg.ai{background:var(--bg);border:1px solid var(--line)}.msg.me{background:var(--acc);color:var(--bg);margin-left:auto}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
-.opt{border:1px solid var(--line);border-radius:12px;padding:13px}.opt.pick{border-color:var(--ok);background:var(--okbg)}
-.opt dl{margin:8px 0 12px}.opt dt{font-size:12px;color:var(--mute)}.opt dd{margin:0 0 6px;font-weight:500}
-.chat{display:flex;gap:8px;margin-top:10px}.chat input,textarea{flex:1;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
-.empty{text-align:center;padding:60px 10px}.fab{position:fixed;right:max(18px,env(safe-area-inset-right,0px));bottom:max(18px,env(safe-area-inset-bottom,0px));display:flex;gap:8px;z-index:5}
-dialog{border:0;border-radius:16px;padding:22px;width:min(480px,92vw);background:var(--card);color:var(--ink)}dialog::backdrop{background:rgba(10,15,30,.55)}
-dialog textarea{width:100%;min-height:110px;margin:8px 0}.row{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
-.ex{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}.ex button{font:inherit;font-size:12.5px;border:1px solid var(--line);background:none;color:var(--mute);padding:3px 10px;border-radius:99px;cursor:pointer}
-.brief li{margin:2px 0}.star{background:none;border:0;cursor:pointer;font-size:18px;color:var(--mute);float:right}.star.on{color:#e0a100}
-
-:root{--bg:#f1f4ee;--card:#fbfcf9;--ink:#14231c;--mute:#5d6b63;--line:#dde4d8;--acc:#1f6f54;--accbg:#d9eadf;--ok:#1f6f54;--okbg:#d9eadf;--warn:#a1471f;--warnbg:#fde3d6;--hero:transparent;--herotx:#14231c}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1913;--card:#15241c;--ink:#e8f0ea;--mute:#8fa496;--line:#243a2e;--acc:#6fd3a8;--accbg:#173a2b;--ok:#6fd3a8;--okbg:#173a2b;--warn:#f4a27f;--warnbg:#3b2318;--hero:transparent;--herotx:#e8f0ea}}
-:root[data-theme="dark"]{--bg:#0e1913;--card:#15241c;--ink:#e8f0ea;--mute:#8fa496;--line:#243a2e;--acc:#6fd3a8;--accbg:#173a2b;--ok:#6fd3a8;--okbg:#173a2b;--warn:#f4a27f;--warnbg:#3b2318;--hero:transparent;--herotx:#e8f0ea}
-body{font-family:Figtree,"Plus Jakarta Sans",system-ui,sans-serif}
-h1,h2,.logo,.stats b{font-family:Fraunces,Georgia,serif}.logo{font-size:24px;font-weight:700}.logo::after{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--acc);margin-left:6px}
-.hero{padding:26px 4px 18px;border-radius:0;background-image:repeating-radial-gradient(circle at 96% 50%,transparent 0 46px,color-mix(in srgb,var(--acc) 24%,transparent) 47px 48px);background-repeat:no-repeat;background-size:340px 340px;background-position:right center}
-.hero h1{font-size:clamp(30px,5vw,46px);font-weight:500;letter-spacing:-.02em}.hero p{opacity:.8;max-width:34ch}
-.stats b{font-size:42px;font-weight:500}.stats span{opacity:.75}
-.item{position:relative;padding-left:64px;border-radius:14px}
-.ring{position:absolute;left:14px;top:50%;translate:0 -50%;width:38px;height:38px;border-radius:50%;background:conic-gradient(var(--acc) var(--p),var(--line) 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px));mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px))}
-.card{border-radius:16px}.btn{border-radius:99px}.pill{border-radius:99px}
-.msg{border-radius:18px 18px 18px 4px}.msg.me{border-radius:18px 18px 4px 18px}
-.typing{display:flex;gap:5px;padding:4px 2px}.typing i{width:8px;height:8px;border-radius:50%;background:var(--mute);animation:ty 1s infinite ease-in-out}.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}@keyframes ty{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-4px)}}
-.tabs{border-radius:99px}.tabs button{border-radius:99px}.search{border-radius:99px}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font:14.5px/1.5 Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before,body::after{content:"";position:fixed;z-index:0;width:620px;height:620px;border-radius:50%;filter:blur(110px);opacity:.5;pointer-events:none;animation:drift 22s ease-in-out infinite alternate}
+body::before{background:var(--vio);left:-180px;top:-200px;opacity:.28}body::after{background:var(--acc);right:-200px;bottom:-240px;animation-delay:-9s;opacity:.26}
+@keyframes drift{to{transform:translate(90px,60px)}}
+.wrap{position:relative;z-index:1;max-width:1380px;margin:auto;padding:0 20px 110px}
+h1,h2,h3,.serif{font-family:"Instrument Serif",Georgia,serif;font-weight:400;margin:0}
+.mono,.pill,.kick{font-family:"JetBrains Mono",monospace}
+header{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:18px 0}
+.logo{font-family:"Instrument Serif",serif;font-size:30px;display:flex;align-items:center;gap:10px}.mark{width:26px;height:26px;border-radius:50%;border:2px solid var(--gold);position:relative}.mark::after{content:"";position:absolute;width:9px;height:9px;border-radius:50%;background:var(--acc);right:-3px;top:2px;box-shadow:0 0 12px var(--acc);animation:orb 6s linear infinite;transform-origin:-7px 11px}@keyframes orb{to{transform:rotate(360deg)}}
+.tag{font-size:12px;color:var(--mute);letter-spacing:.14em;text-transform:uppercase}.sp{margin-left:auto}
+.seg{display:flex;background:var(--glass);border:1px solid var(--line);border-radius:99px;padding:3px;backdrop-filter:blur(12px)}.seg button{font:inherit;font-size:13px;border:0;background:none;color:var(--mute);padding:6px 16px;border-radius:99px;cursor:pointer}.seg button.on{background:var(--ink);color:var(--bg);font-weight:700}.seg button:disabled{opacity:.4;cursor:default}
+.btn{font:inherit;font-weight:700;border:0;border-radius:99px;padding:9px 18px;background:var(--acc);color:var(--on);cursor:pointer;transition:transform .15s,box-shadow .2s;box-shadow:0 8px 24px -10px var(--glow)}.btn:hover{transform:translateY(-1px)}.btn:active{transform:scale(.97)}.btn.ghost{background:var(--glass);color:var(--ink);border:1px solid var(--line);box-shadow:none}.btn.gold{background:linear-gradient(135deg,#f3dba3,#d9b168);color:#2a1d05}.btn.sm{padding:5px 12px;font-size:12.5px}.btn:disabled{opacity:.4}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.stage{display:grid;grid-template-columns:392px 1fr;gap:26px;align-items:start}@media(max-width:1000px){.stage{grid-template-columns:1fr}}
+.glass{background:var(--glass);border:1px solid var(--line);border-radius:20px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.phone{width:360px;height:730px;margin:auto;border-radius:48px;padding:11px;background:linear-gradient(160deg,#2b2f3d,#0c0e15);box-shadow:0 40px 80px -30px rgba(0,0,0,.55),inset 0 0 0 2px rgba(255,255,255,.1);position:sticky;top:12px}
+.screen{height:100%;border-radius:38px;background:var(--bg);overflow:hidden;display:flex;flex-direction:column;position:relative}
+.screen::before{content:"";position:absolute;left:50%;top:9px;translate:-50% 0;width:96px;height:26px;border-radius:99px;background:#05060a;z-index:3}
+.ph{padding:46px 18px 8px}.ph .kick{font-size:10px;letter-spacing:.16em;color:var(--mute)}.ph h2{font-size:25px;line-height:1.1}
+.know{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.chip{font-size:11.5px;padding:3px 10px;border-radius:99px;border:1px solid var(--line);background:var(--g2);color:var(--ink);cursor:pointer;font-family:inherit}.know .chip{cursor:default;color:var(--mute)}.know.hl .chip{border-color:var(--gold);color:var(--gold);box-shadow:0 0 14px -2px var(--gold)}
+#feed{flex:1;overflow-y:auto;padding:6px 16px 10px;scroll-behavior:smooth}#feed::-webkit-scrollbar{width:0}
+.b{max-width:86%;padding:9px 13px;border-radius:18px;margin:7px 0;animation:in .35s cubic-bezier(.2,.7,.2,1)}.b.me{margin-left:auto;background:var(--ink);color:var(--bg);border-bottom-right-radius:5px}.b.ai{background:var(--g2);border:1px solid var(--line);border-bottom-left-radius:5px}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+.hello{padding:20px 4px}.hello h2{font-size:30px;margin:4px 0 14px}.chips{display:flex;gap:7px;flex-wrap:wrap}
+.dots{display:inline-flex;gap:4px;padding:10px 14px;background:var(--g2);border:1px solid var(--line);border-radius:18px;margin:7px 0}.dots i{width:7px;height:7px;border-radius:50%;background:var(--mute);animation:ty 1s infinite}.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}@keyframes ty{40%{transform:translateY(-4px);opacity:1}0%,80%,100%{opacity:.3}}
+.theatre{background:var(--g2);border:1px solid var(--line);border-radius:18px;padding:12px 14px;margin:8px 0}.st{padding:4px 0 4px 22px;position:relative;font-size:13px;color:var(--mute)}.st::before{content:"";position:absolute;left:3px;top:9px;width:9px;height:9px;border-radius:50%;border:2px solid var(--line)}.st.a{color:var(--ink)}.st.a::before{border-color:var(--acc);animation:pu 1s infinite}.st.d{color:var(--ink)}.st.d::before{background:var(--acc);border-color:var(--acc)}@keyframes pu{50%{box-shadow:0 0 0 6px var(--glow)}}
+.dec{border-radius:22px;padding:14px;margin:10px 0;background:linear-gradient(160deg,var(--g2),var(--glass));border:1px solid color-mix(in srgb,var(--gold) 45%,var(--line));box-shadow:0 18px 40px -22px var(--glow);animation:in .5s}
+.dtop{display:flex;gap:12px;align-items:center}.dtop h3{font-size:22px;line-height:1.1}.kick{font-size:10px;letter-spacing:.16em;color:var(--gold)}
+.ring{flex:none;width:68px;height:68px;border-radius:50%;display:grid;place-content:center;text-align:center;position:relative;background:conic-gradient(var(--gold) var(--p),var(--line) 0)}.ring::before{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--bg)}.ring b,.ring i{position:relative;font-style:normal}.ring b{font-family:"Instrument Serif",serif;font-size:24px;line-height:1}.ring i{font-size:8.5px;color:var(--mute)}
+dl{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:10px 0;font-size:13px}dt{color:var(--mute)}dd{margin:0;font-weight:700}
+.bars{display:grid;gap:5px}.bars>div{display:grid;grid-template-columns:48px 1fr 24px;gap:8px;align-items:center;font-size:12px}.sb{height:6px;border-radius:6px;background:var(--line);overflow:hidden}.sb i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--gold));border-radius:6px;animation:gr .9s both}@keyframes gr{from{width:0}}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}.rk{display:grid;grid-template-columns:1fr 70px 26px auto;gap:8px;align-items:center;margin:7px 0;font-size:12.5px}.rk.top span{font-weight:700;color:var(--gold)}input[type=range]{accent-color:var(--acc);width:100%}
+.comp{display:flex;gap:8px;padding:10px 14px 18px}.comp input{flex:1;font:inherit;padding:10px 14px;border-radius:99px;border:1px solid var(--line);background:var(--g2);color:var(--ink);min-width:0}
+.kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}.k{padding:14px 16px;position:relative;overflow:hidden}.k::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}.k span{font-size:12px;color:var(--mute)}.k b{display:block;font-family:"Instrument Serif",serif;font-size:36px;line-height:1.1;font-weight:400;color:var(--c);transition:transform .3s}
+.cons{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:14px}@media(max-width:1180px){.cons{grid-template-columns:1fr}}
+.ph2{padding:16px}.ph2 h3{font-size:22px;margin-bottom:8px}.tl{display:grid;gap:8px;max-height:430px;overflow:auto}
+.tile{display:block;width:100%;text-align:left;font:inherit;color:inherit;padding:11px 13px;border-radius:14px;background:var(--g2);border:1px solid var(--line);cursor:pointer;position:relative;overflow:hidden;transition:transform .2s,border-color .2s;animation:in .4s}.tile:hover{transform:translateY(-2px)}.tile.on{border-color:var(--acc)}.tile::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--tc,var(--line))}
+.pill{display:inline-block;font-size:10.5px;padding:2px 9px;border-radius:6px;background:var(--line);color:var(--mute);margin-right:5px}.pill.ok{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}.pill.warn{background:color-mix(in srgb,var(--warn) 20%,transparent);color:var(--warn)}.pill.bad{background:color-mix(in srgb,var(--bad) 20%,transparent);color:var(--bad)}.pill.acc{background:color-mix(in srgb,var(--acc) 18%,transparent);color:var(--acc)}
+.mute{color:var(--mute)}.sm{font-size:12.5px}.tr{display:grid;grid-template-columns:78px 1fr;gap:8px;padding:5px 0;border-bottom:1px solid var(--line);font-size:13px}.tr:last-child{border:0}
+.alert{border:1px solid var(--bad);background:color-mix(in srgb,var(--bad) 12%,transparent);border-radius:12px;padding:9px 12px;margin-bottom:10px;animation:in .4s}
+select{font:inherit;font-size:12.5px;padding:4px 8px;border-radius:8px;border:1px solid var(--line);background:var(--g2);color:var(--ink)}
+.story{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));translate:-50% 0;z-index:20;width:min(760px,calc(100vw - 28px));padding:12px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;box-shadow:0 24px 60px -20px rgba(0,0,0,.5);animation:in .4s}.story[hidden]{display:none}.story .cap{flex:1;min-width:220px;font-size:15px}.story .cap b{font-family:"Instrument Serif",serif;font-size:19px;font-weight:400}
+dialog{border:1px solid var(--line);border-radius:22px;padding:24px;width:min(520px,92vw);background:var(--bg);color:var(--ink)}dialog::backdrop{background:rgba(5,7,12,.6);backdrop-filter:blur(4px)}dialog li{margin:8px 0}
+.toast{position:fixed;right:20px;top:calc(20px + env(safe-area-inset-top,0px));z-index:30;max-width:340px;padding:12px 16px;border-color:var(--bad);animation:in .4s}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
-
-.hero{position:relative;overflow:hidden;color:#fff;border-radius:28px;padding:38px 34px;background:radial-gradient(60% 80% at 88% 8%,rgba(255,170,120,.38),transparent 60%),radial-gradient(50% 70% at 8% 100%,rgba(90,220,170,.34),transparent 60%),linear-gradient(135deg,#0c3a2d,#11513f 55%,#0f6a57);background-image:radial-gradient(60% 80% at 88% 8%,rgba(255,170,120,.38),transparent 60%),radial-gradient(50% 70% at 8% 100%,rgba(90,220,170,.34),transparent 60%),linear-gradient(135deg,#0c3a2d,#11513f 55%,#0f6a57);background-size:auto;background-position:0 0}
-.hero::before{content:"";position:absolute;right:-100px;top:-100px;width:400px;height:400px;border-radius:50%;background:repeating-radial-gradient(circle,transparent 0 40px,rgba(255,255,255,.14) 41px 42px);animation:spin 80s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
-.hl{position:relative;max-width:660px;flex:1 1 420px}.kick{font-size:12px;letter-spacing:.16em;opacity:.8}
-.hero h1{font-size:clamp(34px,5.6vw,58px);line-height:1.04;margin:10px 0 12px;font-weight:500;color:#fff}.hero h1 em{font-style:italic;color:#ffc9a8}.hero p{color:#fff;max-width:46ch}
-.ask{display:flex;gap:8px;background:rgba(255,255,255,.96);border-radius:99px;padding:6px;margin-top:18px}.ask input{flex:1;border:0;background:transparent;font:inherit;padding:10px 14px;color:#14231c;min-width:0}.ask .btn{background:#ff7a59;color:#2a0f06;white-space:nowrap}
-.hero .stats{position:relative;margin-left:auto;align-self:flex-end}.hero .stats b,.hero .stats span{color:#fff}
-.know{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:18px 0 4px}.know .lab{font-size:12px;letter-spacing:.12em;color:var(--mute);margin-right:4px}
-.chip{display:inline-flex;gap:7px;align-items:center;padding:5px 12px;border-radius:99px;background:var(--card);border:1px solid var(--line);font-size:13px}.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--acc)}
-.sugs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0 4px}.sug{border:1px dashed color-mix(in srgb,var(--acc) 45%,var(--line));border-radius:16px;padding:12px 14px;background:color-mix(in srgb,var(--acc) 6%,var(--card));transition:transform .2s}.sug:hover{transform:translateY(-3px)}.sug b{display:block;font-family:Fraunces,serif;font-size:16px}
-.decide{background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 14%,var(--card)),var(--card));border-color:color-mix(in srgb,var(--acc) 40%,var(--line))}
-.dtop{display:flex;gap:18px;align-items:center;flex-wrap:wrap}.dtop h2{font-size:26px;margin:2px 0 4px}
-.conf{width:96px;height:96px;border-radius:50%;display:grid;place-content:center;text-align:center;background:conic-gradient(var(--acc) var(--p),var(--line) 0);position:relative}.conf::before{content:"";position:absolute;inset:8px;border-radius:50%;background:var(--card)}.conf b,.conf span{position:relative}.conf b{font-family:Fraunces,serif;font-size:28px;line-height:1}.conf span{font-size:10px;color:var(--mute)}
-.bars{display:grid;gap:6px;margin-top:14px}.bars>div{display:grid;grid-template-columns:60px 1fr 30px;gap:10px;align-items:center;font-size:13px}.sbar{height:8px;border-radius:6px;background:var(--line);overflow:hidden}.sbar i{display:block;height:100%;background:var(--acc);border-radius:6px;animation:grow .9s ease both}@keyframes grow{from{width:0}}
-.rstep{padding:7px 0 7px 26px;position:relative;color:var(--mute);font-size:14px}.rstep::before{content:"";position:absolute;left:4px;top:11px;width:10px;height:10px;border-radius:50%;border:2px solid var(--line)}.rstep.a{color:var(--ink)}.rstep.a::before{border-color:var(--acc);animation:pulse 1s infinite}.rstep.d{color:var(--ink)}.rstep.d::before{background:var(--acc);border-color:var(--acc)}@keyframes pulse{50%{box-shadow:0 0 0 7px color-mix(in srgb,var(--acc) 25%,transparent)}}
-@media(max-width:700px){.hero{padding:26px 20px}.hero .stats{margin-left:0}}
-
-.rk{display:grid;grid-template-columns:1fr 1.2fr 34px auto;gap:10px;align-items:center;margin:9px 0;font-size:14px}.rk.top span{font-weight:700}.rk.top b{color:var(--acc)}.rk em{font-style:normal;color:var(--mute);font-size:12px}
-input[type=range]{accent-color:var(--acc);width:100%}
-@media(max-width:600px){.rk{grid-template-columns:1fr 1fr 30px}.rk button{grid-column:1/-1}}
-</style><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Figtree:wght@400;500;700&display=swap"></head><body><div class="wrap">
-<div class="top"><span class="logo">Orbit</span><button class="btn ghost sm" id="cred">Add credentials</button><button class="btn sm" id="newb">New task</button></div>
-<div class="hero"><div class="hl"><span class="kick">YOUR FAMILY'S COMMAND CENTER</span><h1>Ask once.<br><em>Orbit decides</em>, and shows its work.</h1><p>Every answer comes with a side-by-side comparison, a confidence score and a one-tap approval. No waiting, no repeating yourself.</p>
-<div class="ask"><input id="qa" placeholder="What do you need? e.g. a pediatric dentist near us, Saturday" aria-label="New request" onkeydown="if(event.key==='Enter')quickAsk()"><button class="btn" onclick="quickAsk()">Ask Orbit</button></div></div>
-<div class="stats"><div><b>20</b><span>Days left</span></div><div><b id="sdone"></b><span>Tasks done</span></div><div><b id="shrs"></b><span>Hours saved</span></div></div></div>
-<div id="extras"></div>
-<div class="bar"><input class="search" id="q" placeholder="Search your tasks" aria-label="Search your tasks"><button class="btn ghost" id="pri">My priorities</button><div class="tabs"><button id="t1" class="on">Tasks</button><button id="t2">Projects</button></div></div>
-<div id="main"></div></div>
-<div class="fab"><button class="btn" onclick="openNew()">+ New task</button></div>
-<dialog id="dn"><h2 style="margin:0">What do you need?</h2><div class="mute">Keep it short. We fill in the details and ask only what is missing.</div>
-<textarea id="nt" placeholder="e.g. Get a quote from a house cleaner for next Friday"></textarea>
-<div class="ex"><button>Book a flight to Chicago next Thursday evening</button><button>Find a dentist near me, accepts Delta Dental</button></div>
-<div class="row"><button class="btn ghost" onclick="dn.close()">Cancel</button><button class="btn" onclick="submitNew()">Send request</button></div></dialog>
-<dialog id="dc"><h2 style="margin:0">Add credentials</h2><div class="mute">Share a login only when a task needs it (loyalty numbers, portals). Demo only: nothing here is stored or sent.</div>
-<div style="display:grid;gap:8px;margin-top:10px"><input class="search" placeholder="Service (e.g. Delta SkyMiles)"><input class="search" placeholder="Username or member number"><input class="search" type="password" placeholder="Password"></div>
-<div class="row"><button class="btn ghost" onclick="dc.close()">Close</button></div></dialog>
+.app{position:relative;z-index:1;max-width:780px;margin:auto;padding:0 18px 60px}
+.big{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:clamp(42px,8vw,74px);line-height:.98;margin:8px 0 22px;letter-spacing:-.01em}.big em{color:var(--gold)}
+.askbar{display:flex;gap:8px;padding:8px;border-radius:99px;box-shadow:0 24px 60px -30px var(--glow)}.askbar input{flex:1;border:0;background:transparent;font:inherit;font-size:17px;padding:12px 18px;color:var(--ink);min-width:0}.askbar input:focus-visible{outline:none}.askbar:focus-within{border-color:var(--acc)}
+#convs{display:grid;gap:8px}#chat{position:fixed;inset:0;z-index:15;background:var(--bg);display:flex;flex-direction:column;animation:openc .38s cubic-bezier(.2,.7,.2,1)}#chat[hidden]{display:none}@keyframes openc{from{opacity:0;transform:translateY(26px) scale(.985)}}
+.chead{display:flex;align-items:center;gap:12px;padding:calc(14px + env(safe-area-inset-top,0px)) 18px 12px;border-bottom:1px solid var(--line);background:var(--glass);backdrop-filter:blur(14px)}
+#chat #feed{width:100%;max-width:780px;margin:0 auto;padding:14px 18px}#chat .comp{width:100%;max-width:780px;margin:0 auto;padding:10px 18px calc(18px + env(safe-area-inset-bottom,0px))}#chat .dec{max-width:540px}
+</style></head><body>
+<div class="app"><header><div class="logo"><span class="mark"></span>Orbit</div><span class="pill" id="conn">Demo mode</span><span class="sp"></span><button class="btn ghost sm" id="pv">Privacy</button></header>
+<main><div class="kick" style="margin-top:30px">GOOD MORNING, ARCHANA</div><h1 class="big">How can <em>Orbit</em> help?</h1>
+<div class="askbar glass"><input id="ask" placeholder="Ask for help with anything" aria-label="Ask for help"><button class="btn gold" id="askb">Ask</button></div>
+<div class="chips" id="sug" style="margin-top:12px"></div>
+<div class="row" style="margin-top:18px"><span class="kick">ORBIT KNOWS</span><div class="know" id="know" style="margin:0"></div><button class="btn ghost sm" id="editk">Edit</button></div>
+<h3 class="serif" style="font-size:26px;margin:34px 0 10px">Your conversations</h3><div id="convs"></div><div class="mute sm" style="margin-top:14px" id="foot"></div></main></div>
+<section id="chat" hidden><div class="chead"><button class="btn ghost sm" id="back">&larr; Back</button><div style="flex:1;min-width:0"><div class="kick">ORBIT</div><b id="ctitle" class="serif" style="font-size:23px;font-weight:400"></b></div><span class="pill" id="cstat"></span></div>
+<div id="feed"></div><div class="comp"><input id="msg" placeholder="Reply to Orbit" aria-label="Message"><button class="btn" id="send">Send</button></div></section>
+<dialog id="dlg"><h2 style="font-size:28px">Privacy and control</h2><ul><li>The AI sees only your request and the family details you choose to share.</li><li>People join only to make a call or book an appointment, and only after you approve.</li><li>Every step is logged in an audit trail.</li><li>You can change a decision at any time and the team is told automatically.</li><li>This is a prototype. Do not enter real personal details.</li></ul><div class="row"><button class="btn" onclick="dlg.close()">Close</button></div></dialog>
+<dialog id="dp"><h2 style="font-size:28px">What Orbit knows</h2><div class="mute sm">Ask once, never repeat. Sample details only.</div><div style="display:grid;gap:8px;margin-top:12px"><input class="askbar glass" style="border-radius:14px;padding:11px 14px;color:var(--ink);font:inherit" id="pf_area" placeholder="Home area"><input class="askbar glass" style="border-radius:14px;padding:11px 14px;color:var(--ink);font:inherit" id="pf_kids" placeholder="Kids and ages"><input class="askbar glass" style="border-radius:14px;padding:11px 14px;color:var(--ink);font:inherit" id="pf_prefs" placeholder="Preferred days and times"><input class="askbar glass" style="border-radius:14px;padding:11px 14px;color:var(--ink);font:inherit" id="pf_insurance" placeholder="Insurance or budget notes"></div><div class="row"><button class="btn ghost" onclick="dp.close()">Cancel</button><button class="btn" id="savep">Save</button></div></dialog>
 <script>
-const $=s=>document.querySelector(s),dn=$('#dn'),dc=$('#dc');
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const tasks=[
-{id:1,title:'Flight to Detroit, Dec 1, as late as possible',proj:'Detroit conference',cat:'Travel',status:'ready',pri:true,hrs:1.5,
-brief:['Leave NYC on Tue Dec 1 in the evening or late night, from JFK or LGA','Time to reach the airport after your 6 PM conference','Wed early-morning backup only (EWR is fine)','Confirmed prices'],
-schema:['Route','Departs','Arrives','Time after 6 PM','Price','Fit'],
-opts:[{n:'LGA to DTW',f:['Nonstop','Tue 9:05 PM','Tue 10:57 PM','3 h 5 min','$214','Preferred']},{n:'JFK to DTW',f:['Nonstop','Tue 9:50 PM','Tue 11:48 PM','3 h 50 min','$189','Preferred']},{n:'EWR to DTW',f:['Nonstop','Wed 6:10 AM','Wed 8:05 AM','Next morning','$142','Backup only']}],
-thread:[['me','Get Siddhant to Detroit Dec 1 as late as possible. Conference ends at 6.'],['ai','Got it. I looked at evening and late flights from JFK and LGA that leave you enough time after 6 PM, plus an early Wednesday backup. Pick the one you like and I will hold the fare.']],hand:'We will hold the fare for 24 hours. No call needed.'},
-{id:2,title:'Quarterly house cleaning quote',proj:'Home admin',cat:'Home',status:'needs',pri:false,hrs:1,
-brief:['Quote from Heavenly Maids, every 3 months, first visit Oct 22','Price difference: one-time vs quarterly','Deck furniture cleaning included','They have cleaned this home before'],
-need:{q:'What is the service address?',a:'12 Alder Court, San Mateo, CA 94403'},
-schema:['Service','First visit','Price per visit','Deck furniture','Annual cost'],
-opts:[{n:'One-time clean',f:['Deep clean','Oct 22','$240','+$45','$285 once']},{n:'Quarterly plan',f:['Every 3 months','Oct 22','$195','+$45','$960 (4 visits)']}],
-thread:[['me','Get a quote from Heavenly Maids for quarterly cleaning starting Oct 22, plus deck furniture.'],['ai','One thing before I request the quote: what is the service address?']],hand:'A team member will call Heavenly Maids to confirm the Oct 22 slot.'},
-{id:3,title:'Will and trust attorney for Neha',proj:'Home admin',cat:'Legal',status:'ready',pri:false,hrs:2,
-brief:['Check whether recommendations were already sent (none found)','Will and trust specialists near San Mateo','Are in-person meetings required?','How many sessions are typical?'],
-schema:['Focus','Fees','Meetings','Typical sessions','Distance, rating'],
-opts:[{n:'Biddle Law',f:['Wills and trusts','Flat fee, cash discount','Email and Zoom only','2','2.7 mi, 5.0 (13)']},{n:'Singh Law Firm',f:['Estate planning only','Free consultation','Zoom or office','2 to 3','28.7 mi, 4.9 (1,054)']}],
-thread:[['me','Neha wants a will and trust attorney. Not sure if she has to meet in person.'],['ai','I found two options. Neither requires an in-person visit. Biddle Law is closer and flat-fee; Singh Law Firm is bigger and handles complex trusts.']],hand:'A team member will call to book the consultation.'}];
-let sel=1,tab=1,onlyPri=false,nid=4;
-const lab={ready:['Options ready','acc'],needs:['Needs your reply','warn'],working:['Working on it',''],done:['Done','ok']};
-function stats(){const d=tasks.filter(t=>t.status==='done');$('#sdone').textContent=d.length+'/'+tasks.length;$('#shrs').textContent=d.reduce((a,t)=>a+t.hrs,0)}
-function list(){const q=$('#q').value.toLowerCase();return tasks.filter(t=>(!onlyPri||t.pri)&&(t.title+t.proj).toLowerCase().includes(q))}
-function detail0(t){if(!t)return'<div class="card empty">Select a task.</div>';
- let h=`<div class="card"><button class="star ${t.pri?'on':''}" onclick="star(${t.id})" aria-label="Priority">★</button><h2>${esc(t.title)}</h2><span class="pill ${lab[t.status][1]}">${lab[t.status][0]}</span><span class="pill">${t.proj}</span>
- <h3 style="margin-top:14px">What we understood</h3><ul class="brief" style="margin:0;padding-left:18px">${t.brief.map(b=>'<li>'+esc(b)+'</li>').join('')}</ul></div>
- <div class="card"><h3>Conversation</h3>${t.thread.map(m=>`<div class="msg ${m[0]}">${esc(m[1])}</div>`).join('')}`;
- if(t.status==='needs')h+=`<div class="chat"><input id="rep" placeholder="${esc(t.need.q)}"><button class="btn" onclick="reply(${t.id})">Send</button></div><div class="ex"><button onclick="$('#rep').value='${t.need.a}'">Use: ${esc(t.need.a)}</button></div>`;
- if(t.status==='working')h+='<div class="mute">Working on it. We will post options here.</div>';
- h+='</div>';
- if(t.opts&&(t.status==='ready'||t.status==='done'))h+=`<div class="card"><h3>Your options</h3><div class="grid">${t.opts.map((o,j)=>`<div class="opt ${t.pick===j?'pick':''}"><b>${o.n}</b><dl>${t.schema.map((s,k)=>`<dt>${s}</dt><dd>${esc(o.f[k])}</dd>`).join('')}</dl><button class="btn sm ${t.pick===j?'':'ghost'}" ${t.status==='done'?'disabled':''} onclick="pick(${t.id},${j})">${t.pick===j?'Chosen':'Choose this'}</button></div>`).join('')}</div><div class="mute" style="margin-top:8px">Sample data for the demo.</div></div>`;
- if(t.status==='done')h+=`<div class="card"><h3>Next step</h3>${t.hand}</div>`;
- return h}
-function draw0(){stats();$('#t1').className=tab===1?'on':'';$('#t2').className=tab===2?'on':'';$('#pri').className='btn '+(onlyPri?'':'ghost');
- const L=list();
- if(tab===2){const g={};L.forEach(t=>(g[t.proj]=g[t.proj]||[]).push(t));$('#main').innerHTML=Object.keys(g).length?`<div class="grid">${Object.keys(g).map(p=>`<div class="card"><h2>${esc(p)}</h2><div class="mute">${g[p].filter(t=>t.status==='done').length} of ${g[p].length} done</div>${g[p].map(t=>`<div style="margin-top:8px"><b>${esc(t.title)}</b><br><span class="pill ${lab[t.status][1]}">${lab[t.status][0]}</span></div>`).join('')}</div>`).join('')}</div>`:'<div class="card empty">No projects match.</div>';return}
- if(!L.length){$('#main').innerHTML='<div class="card empty"><h2>No tasks yet</h2><p class="mute">Tell us what you need and we will take it from there.</p><button class="btn" onclick="openNew()">Add your first task</button></div>';return}
- if(!L.find(t=>t.id===sel))sel=L[0].id;
- $('#main').innerHTML=`<div class="cols"><div>${L.map(t=>`<button class="item ${t.id===sel?'on':''}" onclick="sel=${t.id};draw()"><b>${t.pri?'★ ':''}${esc(t.title)}</b><span class="pill ${lab[t.status][1]}">${lab[t.status][0]}</span><span class="mute">${t.cat}</span></button>`).join('')}</div><div>${detail(tasks.find(t=>t.id===sel))}</div></div>`}
-function star(id){const t=tasks.find(x=>x.id===id);t.pri=!t.pri;draw()}
-function pick0(id,j){const t=tasks.find(x=>x.id===id);t.pick=j;t.status='done';t.thread.push(['me','I will take '+t.opts[j].n+'.'],['ai','Done. '+t.hand]);draw()}
-function reply0(id){const t=tasks.find(x=>x.id===id),v=$('#rep').value.trim();if(!v)return;t.thread.push(['me',v]);
- if(!t.opts){t.thread.push(['ai','Thanks. I have what I need and I am working on it.']);t.status='working';draw();return}
- t.thread.push(['ai','Thanks. Requesting the quote now.']);t.status='working';draw();setTimeout(()=>{t.status='ready';t.thread.push(['ai','The quote is back. One-time and quarterly pricing are below, side by side.']);draw()},1800)}
-function openNew(){dn.showModal()}
-async function submitNew0(){const v=$('#nt').value.trim();if(!v)return;dn.close();$('#nt').value='';
- const t={id:nid++,title:v.length>60?v.slice(0,57)+'...':v,proj:'Inbox',cat:'New',status:'working',pri:false,hrs:1,brief:['Request: '+v],need:{q:'Your reply',a:''},opts:null,thread:[['me',v]],hand:'Answered. Reply here if you need more.'};
- tasks.unshift(t);sel=t.id;tab=1;draw();
- try{const sm=await claude.use('sample');if(!sm)throw 0;
-  const r=await sm.json(`You are the first responder for a family concierge. Return ONLY JSON: {"title": max 7 words, "brief": [2-4 short bullets restating what the customer wants], "mode": "answer" | "ask" | "research", "answer": max 45 words, crisp, no greeting. mode answer: the answer from general knowledge. mode ask: one question covering all missing essential details. mode research: one line saying what you will compare and what the customer gets}. If the request hints at a medical emergency (heavy bleeding, chest pain, trouble breathing), the answer must begin with: If this is an emergency, call your local emergency number now.\n\nFamily profile (already known; never ask for it): ${profileText()}
 
-Request: ${v}`,{modelTier:'quick',cache:false});
-  t.title=r.title||t.title;if(r.brief&&r.brief.length)t.brief=r.brief;t.thread.push(['ai',r.answer||'Got it.']);
-  t.status=r.mode==='ask'?'needs':r.mode==='answer'?'done':'working';if(r.mode==='ask')t.need.q=r.answer;
- }catch(e){const hasWhen=/\d|today|tomorrow|tonight|monday|tuesday|wednesday|thursday|friday|saturday|sunday|week|month/i.test(v);
-  t.status=hasWhen?'working':'needs';t.brief=['Request: '+v,'Deadline: '+(hasWhen?'taken from your message':'not given yet')];
-  t.thread.push(['ai',hasWhen?'Got it. I am researching now and will post options here.':'Got it. One thing first: when do you need this by?']);t.need.q='When do you need this by?'}
- draw()}
-function draw(){draw0();decorate();extras()}
-function decorate(){if(tab!==1)return;const L=list(),P={working:42,needs:28,ready:72,done:100};document.querySelectorAll('.item').forEach((el,i)=>{const t=L[i];if(!t||el.querySelector('.ring'))return;const r=document.createElement('i');r.className='ring';r.style.setProperty('--p',(P[t.status]||40)+'%');el.prepend(r)})}
-function detail(t){if(!t)return detail0(t);let h=dcard(t)+detail0(t);
- if(t.typing)h+='<div class="card"><div class="typing"><i></i><i></i><i></i></div></div>';
- if(t.status!=='needs')h+=`<div class="card"><div class="chat"><input id="fu" placeholder="Reply or ask a follow-up" onkeydown="if(event.key==='Enter')followUp(${t.id})"><button class="btn" onclick="followUp(${t.id})">Send</button></div><div class="mute" style="margin-top:6px">Short replies keep things fast. New facts refresh the research.</div></div>`;
- return h}
-async function followUp0(id){const t=tasks.find(x=>x.id===id),i=$('#fu'),v=i&&i.value.trim();if(!v)return;i.value='';t.thread.push(['me',v]);t.typing=true;draw();
- let ans='Noted. I have added that to your request.';
- try{const sm=await claude.use('sample');if(!sm)throw 0;
-  // Token saver: send only the brief and the last 6 messages, not the whole thread.
-  const ctx=t.thread.slice(-6).map(m=>(m[0]==='me'?'Customer: ':'Assistant: ')+m[1]).join('\n');
-  const r=await sm.json(`You are a concierge assistant. Brief: ${t.brief.join('; ')}\nRecent chat:\n${ctx}\nReturn ONLY JSON {"answer": max 40 words, crisp, no greeting, "changes_request": true only if the customer changed or added facts that need new research}`,{modelTier:'quick',cache:false});
-  ans=r.answer||ans;if(r.changes_request){t.brief.push('Update: '+v);ans+=' I will refresh the research.'}
- }catch(e){}
- t.typing=false;t.thread.push(['ai',ans]);draw()}
-const profile={area:'San Mateo, CA',kids:'Maya 7, Leo 4',prefs:'Weekday mornings',insurance:'Delta Dental'};
-const profileText=()=>Object.entries(profile).filter(e=>e[1]).map(e=>e[0]+': '+e[1]).join('; ')||'none';
-const sug=()=>{const k=profile.kids||'the kids',a=profile.area||'your area';return[['Annual checkups','Book yearly checkups for '+k,'Book yearly pediatric checkups for '+k+' in '+a],['This weekend','Find a family activity near '+a,'Find a family-friendly activity near '+a+' this weekend'],['Dental','Cleanings are due twice a year','Find a pediatric dentist in '+a+(profile.insurance?' that accepts '+profile.insurance:'')]]};
-function extras(){const e=$('#extras');if(!e)return;const h=`<div class="know"><span class="lab">ORBIT KNOWS</span>${Object.values(profile).filter(Boolean).map(x=>`<span class="chip">${esc(x)}</span>`).join('')}<button class="btn ghost sm" onclick="openProfile()">Edit</button></div><div class="sugs">${sug().map((x,i)=>`<div class="sug"><b>${esc(x[0])}</b><div class="mute">${esc(x[1])}</div><button class="btn sm" style="margin-top:8px" onclick="startReq(${i})">Start</button></div>`).join('')}</div>`;if(e._h!==h){e.innerHTML=h;e._h=h}}
-document.body.insertAdjacentHTML('beforeend',`<dialog id="dp"><h2 style="margin:0">What Orbit knows</h2><div class="mute">Ask once, never repeat. Sample data in this demo; nothing is saved.</div><div style="display:grid;gap:8px;margin-top:10px">${[['area','Home area'],['kids','Kids and ages'],['prefs','Preferred days and times'],['insurance','Insurance or budget notes']].map(f=>`<input class="search" id="pf_${f[0]}" placeholder="${f[1]}">`).join('')}</div><div class="row"><button class="btn ghost" onclick="dp.close()">Cancel</button><button class="btn" onclick="saveProfile()">Save</button></div></dialog>`);
-function openProfile(){for(const k in profile)$('#pf_'+k).value=profile[k];$('#dp').showModal()}
-function saveProfile(){for(const k in profile)profile[k]=$('#pf_'+k).value.trim();$('#dp').close();if(LIVE)api('/api/profile',Object.fromEntries(Object.keys(profile).map(k=>[k,profile[k]])),'PUT').catch(e=>toast(e.message));extras()}
-function startReq(i){$('#nt').value=sug()[i][2];submitNew()}
-function quickAsk(){const v=$('#qa').value.trim();if(!v)return;$('#qa').value='';$('#nt').value=v;submitNew()}
-const DEC={1:{win:1,conf:88,why:'The latest realistic departure after your 6 PM finish, and the cheapest nonstop.',scores:[[84,70,92],[90,72,95],[60,80,40]]},2:{win:1,conf:81,why:'Quarterly cuts the price per visit by $45 and keeps your Oct 22 slot.',scores:[[55,80,70],[88,80,90]]},3:{win:0,conf:76,why:'Closest, flat fee and fully remote, which fits your soft location preference.',scores:[[80,85,88],[60,92,70]]}};
-function dcard(t){const d=DEC[t.id];if(!d||!t.opts||!(t.status==='ready'||t.status==='done'))return'';
- if(t.rp!==undefined&&t.rp<5){const S=['Scout 1 reads sources: lowest cost','Scout 2 reads sources: best quality','Scout 3 checks fit with your profile','Critic challenges every pick','Judge decides and scores confidence'];
-  return`<div class="card"><h3>Research room</h3>${S.map((x,i)=>`<div class="rstep ${i<t.rp?'d':i===t.rp?'a':''}">${x}</div>`).join('')}</div>`}
- const wi=t.status==='done'&&t.pick!=null?t.pick:(t.win??d.win),w=t.opts[wi],sc=d.scores[wi];
- return`<div class="card decide"><div class="dtop"><div class="conf" style="--p:${d.conf}%"><b>${d.conf}</b><span>confidence</span></div><div><div class="mute">ORBIT'S PICK</div><h2>${esc(w.n)}</h2><div>${esc(d.why)}</div></div></div>
- <div class="bars">${['Cost','Quality','Fit'].map((l,i)=>`<div><span>${l}</span><div class="sbar"><i style="width:${sc[i]}%"></i></div><em>${sc[i]}</em></div>`).join('')}</div>
- <div class="row" style="margin-top:12px;justify-content:flex-start">${t.status==='done'?'<span class="pill ok">Approved</span>':`<button class="btn" onclick="pick(${t.id},${wi})">Approve this</button>`}<button class="btn ghost" onclick="replay(${t.id})">Replay the research</button><button class="btn ghost" onclick="openRethink(${t.id})">${t.status==='done'?'Change my decision':'Rethink my decision'}</button></div>
- <div class="mute" style="margin-top:8px">Scouts (cost, quality, fit) then a critic, then a judge. Scores and options are sample data in this demo.</div></div>${t.rt?rethink(t,d):''}${histCard(t)}`}
-function replay(id){const t=tasks.find(x=>x.id===id);t.rp=0;draw();const iv=setInterval(()=>{t.rp++;draw();if(t.rp>=5)clearInterval(iv)},800)}
-const WL=['Off','Low','Mid','High'];
-function pick(id,j){if(LIVE)return post('/api/tasks/'+id+'/approve',{option:j});const t=tasks.find(x=>x.id===id);pick0(id,j);(t.hist=t.hist||[]).push({o:t.opts[j].n,k:'approved'});t.win=j;t.rt=false;draw()}
-function openRethink(id){const t=tasks.find(x=>x.id===id);t.rt=!t.rt;draw()}
-function rank(t){const d=DEC[t.id],w=t.w||[1,1,1],S=w.reduce((a,b)=>a+b,0)||1,cur=t.status==='done'&&t.pick!=null?t.pick:(t.win??d.win);
- return t.opts.map((o,j)=>({j,n:o.n,s:Math.round(d.scores[j].reduce((a,x,i)=>a+x*w[i],0)/S)})).sort((a,b)=>b.s-a.s).map((x,i)=>`<div class="rk ${i===0?'top':''}"><span>${esc(x.n)}${x.j===cur?' <em>(current)</em>':''}${i===0?' <em>best for your priorities</em>':''}</span><div class="sbar"><i style="width:${x.s}%"></i></div><b>${x.s}</b>${x.j===cur?'<span></span>':`<button class="btn ghost sm" onclick="switchTo(${t.id},${x.j})">Switch</button>`}</div>`).join('')}
-function rethink(t,d){t.w=t.w||[1,1,1];
- return`<div class="card"><h3>Rethink your decision</h3><div class="mute">Tell Orbit what matters most. The ranking updates instantly, with no new research.</div>
- <div class="bars" style="margin-top:10px">${['Cost','Quality','Fit'].map((l,i)=>`<div style="grid-template-columns:60px 1fr 44px"><span>${l}</span><input type="range" min="0" max="3" step="1" value="${t.w[i]}" oninput="setW(${t.id},${i},this.value)" aria-label="${l} importance"><em id="wv${i}">${WL[t.w[i]]}</em></div>`).join('')}</div>
- <div id="rk" style="margin-top:8px">${rank(t)}</div>
- ${t.status==='done'?'<div class="mute">You already approved a choice. If you switch, a team member will cancel or change it with the provider and check any fees first.</div>':''}
- <h3 style="margin-top:14px">Something changed?</h3><div class="chat"><input id="rt" placeholder="e.g. we can leave a day earlier, or the budget is now $150"><button class="btn ghost" onclick="rethinkAsk(${t.id})">Re-research</button></div>
- <div class="mute" style="margin-top:6px">New facts trigger fresh research. Changing priorities does not.</div>
- <div class="row" style="justify-content:flex-start;margin-top:10px"><button class="btn ghost" onclick="openRethink(${t.id})">Keep my current choice</button></div></div>`}
-function setW(id,i,v){const t=tasks.find(x=>x.id===id);t.w=t.w||[1,1,1];t.w[i]=+v;$('#wv'+i).textContent=WL[v];$('#rk').innerHTML=rank(t)}
-function switchTo(id,j){if(LIVE)return post('/api/tasks/'+id+'/switch',{option:j});const t=tasks.find(x=>x.id===id),d=DEC[id],was=t.status==='done',cur=was&&t.pick!=null?t.pick:(t.win??d.win),old=t.opts[cur].n;
- t.win=j;t.rt=false;(t.hist=t.hist||[]).push({o:t.opts[j].n,k:was?'changed from '+old:'new pick, not yet approved'});
- if(was){t.pick=j;t.hand='A team member will cancel or change the earlier booking and confirm any fees with you.';t.thread.push(['me','I would like to switch to '+t.opts[j].n+'.'],['ai','Done. You had already approved '+old+', so a team member will cancel or change it with the provider and check any fees before confirming.'])}
- else t.thread.push(['me','Switch my pick to '+t.opts[j].n+'.'],['ai','Updated. Approve when you are ready.']);
- draw()}
-function rethinkAsk(id){const i=$('#rt'),v=i&&i.value.trim(),f=$('#fu');if(!v||!f)return;f.value='Rethinking: '+v;followUp(id)}
-function histCard(t){return t.hist&&t.hist.length?`<div class="card"><h3>Decision history</h3>${t.hist.map(h=>`<div class="mute">${esc(h.o)}: ${esc(h.k)}</div>`).join('')}</div>`:''}
-let LIVE=false,lastHash='';
-const api=async(url,body,method)=>{const r=await fetch(url,{method:method||(body?'POST':'GET'),headers:{'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined});let j;try{j=await r.json()}catch(e){throw Error('Server returned no data')}if(!r.ok)throw Error(j.error||('Error '+r.status));return j};
-const toast=m=>{let e=$('#toast');if(!e){e=document.createElement('div');e.id='toast';e.style.cssText='position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:99px;z-index:50;font-size:14px';document.body.appendChild(e)}e.textContent=m;e.hidden=false;clearTimeout(e._t);e._t=setTimeout(()=>{e.hidden=true},3500)};
-const post=(u,b)=>api(u,b).then(sync).catch(e=>toast(e.message));
-const mapC=s=>{const hasO=!!(s.options&&s.options.length),st=({working:'working',research:'working',asked:'needs'})[s.status]||((hasO&&s.status==='answered')?'ready':'done');if(hasO)DEC[s.id]={win:s.win==null?0:s.win,conf:s.conf==null?70:s.conf,why:s.reason||'',scores:s.scores};
- return{id:s.id,title:s.title,proj:'Inbox',cat:s.cat,status:st,pri:false,hrs:1,brief:(s.asks&&s.asks.length)?s.asks:['Request: '+s.raw],need:{q:s.question||'',a:''},opts:hasO?s.options.map(o=>({n:o.name,f:o.fields})):null,schema:s.schema||['Price','Timing','Key detail','Distance or rating'],thread:(s.thread||[]).map(m=>[m.from,m.text]),hand:s.hand||'We will confirm next steps.',pick:s.pick==null?null:s.pick,win:s.win==null?undefined:s.win,hist:(s.hist||[]).map(h=>({o:h.o,k:h.k})),typing:s.status==='working'||!!s.busy}};
-function keepFocus(fn){const a=document.activeElement,id=a&&a.id,v=a&&a.value,p=a&&a.selectionStart;fn();if(id){const e=document.getElementById(id);if(e&&e!==document.activeElement){e.focus();if(v!=null&&e.value!==v)e.value=v;try{e.setSelectionRange(p,p)}catch(_){}}}}
-async function sync(){try{const L=await api('/api/tasks'),h=JSON.stringify(L);if(h===lastHash)return;lastHash=h;const old=tasks.slice();tasks.length=0;L.forEach(s=>{const n=mapC(s),o=old.find(x=>x.id===s.id);if(o){n.rt=o.rt;n.w=o.w;n.rp=o.rp;n.pri=o.pri}tasks.push(n)});if(tasks.length&&!tasks.some(t=>t.id===sel))sel=tasks[0].id;keepFocus(draw)}catch(e){}}
-async function submitNew(){if(!LIVE)return submitNew0();const v=$('#nt').value.trim();if(!v)return;dn.close();$('#nt').value='';post('/api/tasks',{text:v})}
-function reply(id){if(!LIVE)return reply0(id);const i=$('#rep'),v=i&&i.value.trim();if(v)post('/api/tasks/'+id+'/message',{text:v})}
-async function followUp(id){if(!LIVE)return followUp0(id);const i=$('#fu'),v=i&&i.value.trim();if(!v)return;i.value='';post('/api/tasks/'+id+'/message',{text:v})}
-(async()=>{if(window.claude)return;try{await api('/api/health');LIVE=true;Object.assign(profile,await api('/api/profile'));tasks.length=0;await sync();setInterval(sync,2500)}catch(e){}})();
-$('#t1').onclick=()=>{tab=1;draw()};$('#t2').onclick=()=>{tab=2;draw()};$('#pri').onclick=()=>{onlyPri=!onlyPri;draw()};$('#q').oninput=draw;
-$('#newb').onclick=openNew;$('#cred').onclick=()=>dc.showModal();
-document.querySelectorAll('.ex button').forEach(b=>{if(b.closest('#dn'))b.onclick=()=>$('#nt').value=b.textContent});
-draw();
+const $=s=>document.querySelector(s),esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+let pend=null,tasks=[],cur=null,sel=null,mode='demo',nid=1,rt=false,W=[1,1,1],prof={area:'San Mateo, CA',kids:'Maya 7, Leo 4',insurance:'Delta Dental',prefs:''},seenAlert={},poll=null,lastH='';
+const SUG=[['Pediatric dentist','Find a pediatric dentist near us that takes Delta Dental, Saturday if possible'],['Get a plumber','Get a plumber to fix a leaking kitchen faucet'],['Quick question','How do I rewire a lamp safely?']];
+const SCH=['Price','Timing','Key detail','Distance · rating'];
+/* ---------- DEMO BACKEND (scripted, no keys needed) ---------- */
+const kind=t=>{t=t.toLowerCase();return /dent|doctor|pediatric|clinic|camp|class|lesson/.test(t)?'research':/plumb|clean|repair|electric|handyman/.test(t)?'ask':'answer'};
+const say=(t,from,text)=>t.thread.push({from,text}),tr=(t,g,x)=>t.trace.push([g,x]);
+const demo={
+ async create(text){const k=kind(text),t={id:nid++,title:text.slice(0,44),cat:'Other',raw:text,status:'working',created:Date.now(),tta:0,asks:[],question:'',draft:'',options:null,schema:SCH,scores:null,win:null,conf:null,reason:'',transcript:[],thread:[{from:'me',text}],trace:[['R','Request arrived, AI started automatically']],hist:[],human:null,pick:null,runs:0,turns:1,alert:'',busy:false,hand:''};
+  tasks.unshift(t);cur=sel=t.id;rt=false;draw();await sleep(900);t.tta=1;
+  if(k==='research'){Object.assign(t,{title:'Pediatric dentist search',cat:'SP - Health',asks:['In-network for Delta Dental','Near San Mateo','Weekend slot'],status:'research',rs:Date.now()});t.human={type:'Appointment',desc:'Book the first visit with the chosen dentist',state:'locked',who:''};
+   say(t,'ai','Comparing 3 local pediatric dentists on price, hours and insurance fit.');tr(t,'L','Category: SP - Health. Used the family profile, nothing to ask');draw();await sleep(4600);
+   Object.assign(t,{status:'answered',runs:1,win:0,conf:87,reason:'Cheapest in-network option with a weekend slot',
+    options:[{name:'Harbor Kids Dental',fields:['$140 first visit','Sat 9:00 AM','Takes Delta Dental','1.8 mi · 4.9']},{name:'Cedar & Pine Pediatrics',fields:['$165 first visit','Thu 4:30 PM','Takes Delta Dental','3.4 mi · 4.8']},{name:'Little Molars Studio',fields:['$120 first visit','Mon 8:00 AM','Out of network','5.9 mi · 4.6']}],
+    scores:[[88,84,94],[72,90,86],[96,70,48]],draft:'Harbor Kids Dental: $140, Saturday 9 AM, takes Delta Dental, 1.8 miles away.',hand:'A team member will book the first visit.',
+    transcript:[{role:'Scout: lowest cost',text:'Little Molars Studio. Cheapest at $120.'},{role:'Scout: best quality',text:'Cedar & Pine Pediatrics. Top reviews.'},{role:'Scout: best fit',text:'Harbor Kids Dental. In network, weekend slot.'},{role:'Critic',text:'Little Molars Studio: out of network, breaks the insurance constraint.'},{role:'Judge',text:'Harbor Kids Dental. Best price among in-network options (87% confidence).'}]});
+   say(t,'ai',t.draft);tr(t,'L','Agent debate: 3 scouts, critic, judge (87% confidence)');tr(t,'R','Answer sent to customer');}
+  else if(k==='ask'){Object.assign(t,{title:'Plumber visit',cat:'SP - Home',asks:['Fix leaking faucet'],status:'asked',question:'What is the address, and which days are you free?',draft:'What is the address, and which days are you free?'});t.human={type:'Call',desc:'Confirm the visit slot with the plumber',state:'locked',who:''};say(t,'ai',t.question);tr(t,'L','Missing details found: address, availability');tr(t,'R','Customer asked immediately');}
+  else{Object.assign(t,{title:/lamp|rewire/i.test(text)?'Rewiring a lamp':'Quick question',cat:'Checklists',asks:['Answer the question'],status:'answered',draft:/lamp|rewire/i.test(text)?'Unplug it first. Replace the cord and socket with UL-listed parts, tie an underwriters knot, keep grounding intact.':'Demo mode answers from a script. Try the dentist or plumber examples, or use Live mode for real AI.'});say(t,'ai',t.draft);tr(t,'L','Answered from general knowledge, no research needed');}
+  draw()},
+ async message(id,text){const t=tasks.find(x=>x.id===id);say(t,'me',text);t.turns++;tr(t,'R','Customer replied: '+text.slice(0,60));
+  if(t.status==='asked'){t.status='working';draw();await sleep(1100);Object.assign(t,{status:'answered',question:'',draft:'Sample Plumbing Co: Thursday 9 to 11 AM, $95 call-out, in your area.',hand:'A team member will confirm the slot.'});say(t,'ai',t.draft);tr(t,'L','Resumed with the new details');}
+  else{t.busy=true;draw();await sleep(900);t.busy=false;say(t,'ai','Noted. I will keep that in mind.');}
+  draw()},
+ approve(id,j){const t=tasks.find(x=>x.id===id),n=t.options[j].name;t.pick=j;t.win=j;t.status='approved';t.hist.push({o:n,k:'approved'});say(t,'me','I will take '+n+'.');say(t,'ai','Approved. '+(t.human?'A team member will '+t.human.desc.toLowerCase()+'.':'No call needed.'));if(t.human)t.human.state='ready';tr(t,'R','Customer approved '+n);draw()},
+ switch(id,j){const t=tasks.find(x=>x.id===id),n=t.options[j].name,was=t.status==='approved'||t.status==='changed',old=t.options[t.pick==null?t.win:t.pick].name;t.win=j;t.hist.push({o:n,k:was?'changed from '+old:'new pick, not yet approved'});
+  if(was){t.pick=j;t.status='changed';t.alert='Customer switched from '+old+' to '+n;t.human={type:'Call',desc:'Cancel or change the earlier booking ('+old+') and book '+n+'; confirm any fees',state:'ready',who:t.human?t.human.who:''};say(t,'me','I would like to switch to '+n+'.');say(t,'ai','Done. A team member will cancel or change '+old+' and check any fees first.');tr(t,'R','DECISION CHANGED after approval: '+old+' to '+n)}
+  else{say(t,'me','Switch my pick to '+n+'.');say(t,'ai','Updated. Approve when you are ready.')}rt=false;draw()},
+ human(id,b){const t=tasks.find(x=>x.id===id);if(!t.human)return;if(b.who!=null)t.human.who=b.who;if(b.done){t.human.state='done';t.alert='';tr(t,'R','Human step done: '+t.human.desc)}draw()}};
+/* ---------- LIVE BACKEND (your Orbit server) ---------- */
+const api=async(u,b,m)=>{const r=await fetch(u,{method:m||(b?'POST':'GET'),headers:{'Content-Type':'application/json'},body:b?JSON.stringify(b):undefined});let j;try{j=await r.json()}catch(e){throw Error('No data from server')}if(!r.ok)throw Error(j.error||r.status);return j};
+async function sync(){try{const L=await api('/api/tasks'),h=JSON.stringify(L);if(h===lastH)return;lastH=h;tasks=L;if(!tasks.some(t=>t.id===cur))cur=tasks[0]?tasks[0].id:null;if(!tasks.some(t=>t.id===sel))sel=cur;draw()}catch(e){toast(e.message)}}
+const live={async create(x){const t=await api('/api/tasks',{text:x});cur=sel=t.id;await sync()},async message(id,x){await api('/api/tasks/'+id+'/message',{text:x});await sync()},async approve(id,j){await api('/api/tasks/'+id+'/approve',{option:j});await sync()},async switch(id,j){rt=false;await api('/api/tasks/'+id+'/switch',{option:j});await sync()},async human(id,b){await api('/api/tasks/'+id+'/human',b);await sync()}};
+const B=()=>mode==='live'?live:demo;
+const act=(k,id,j)=>B()[k](id,j);
+/* ---------- helpers ---------- */
+const ST=t=>({working:['AI working','','#8b7cf6'],research:['Researching','acc','#7dd3c0'],asked:['Asked customer','warn','#f4c15d'],error:['Needs retry','bad','#ff7a8c'],answered:['Answered by AI','ok','#9be37a'],approved:['Approved','ok','#9be37a'],changed:['Decision changed','bad','#ff7a8c']})[t.status]||['','','#999'];
+const callReady=t=>t.human&&t.human.state==='ready';
+const cost=t=>{const rep=Math.max(0,(t.turns||1)-1),runs=t.runs||0,m=1+rep;let ci=0;for(let k=0;k<m;k++)ci+=700+300*k;const I=ci+7300*runs,O=150*m+1250*runs;return{tok:I+O,son:(I*2+O*10)/1e4,hai:(I*.1+O*.5)/1e4,runs,m}};
+function toast(m){let e=$('#toast');if(!e){e=document.createElement('div');e.id='toast';e.className='toast glass';document.body.appendChild(e)}e.textContent=m;e.hidden=false;clearTimeout(e._t);e._t=setTimeout(()=>e.hidden=true,4200)}
+/* ---------- PHONE ---------- */
+const STEPS=['Scouts read sources: lowest cost','Scouts read sources: best quality','Scouts check fit with your profile','Critic challenges every pick','Judge scores and decides'];
+function rank(t){const S=W.reduce((a,b)=>a+b,0)||1,c=t.pick==null?t.win:t.pick;return t.options.map((o,j)=>({j,n:o.name,s:Math.round(t.scores[j].reduce((a,x,i)=>a+x*W[i],0)/S)})).sort((a,b)=>b.s-a.s).map((x,i)=>`<div class="rk ${i?'':'top'}"><span>${esc(x.n)}${x.j===c?' (current)':''}</span><div class="sb"><i style="width:${x.s}%"></i></div><b>${x.s}</b>${x.j===c?'<span></span>':`<button class="btn ghost sm" onclick="act('switch',${t.id},${x.j})">Switch</button>`}</div>`).join('')}
+function setW(i,v){W[i]=+v;const t=tasks.find(x=>x.id===cur);$('#rk').innerHTML=rank(t);$('#wv'+i).textContent=['Off','Low','Mid','High'][v]}
+function decision(t){const wi=t.pick==null?t.win:t.pick,o=t.options[wi],sc=t.scores[wi],ap=t.status==='approved'||t.status==='changed';
+ return`<div class="dec"><div class="dtop"><div class="ring" style="--p:${t.conf}%"><b>${t.conf}</b><i>confidence</i></div><div><div class="kick">ORBIT'S PICK</div><h3>${esc(o.name)}</h3><div class="mute sm">${esc(t.reason)}</div></div></div>
+ <dl>${t.schema.map((s,k)=>`<dt>${esc(s)}</dt><dd>${esc(o.fields[k])}</dd>`).join('')}</dl>
+ <div class="bars">${['Cost','Quality','Fit'].map((l,i)=>`<div><span>${l}</span><div class="sb"><i style="width:${sc[i]}%"></i></div><b>${sc[i]}</b></div>`).join('')}</div>
+ <div class="row">${ap?'<span class="pill ok">Approved</span>':`<button class="btn" onclick="act('approve',${t.id},${wi})">Approve</button>`}<button class="btn ghost" onclick="rt=!rt;phone()">${ap?'Change my decision':'Rethink'}</button></div>
+ ${rt?`<div style="margin-top:12px"><div class="mute sm">What matters most? The ranking updates instantly with no new research.</div><div class="bars" style="margin-top:8px">${['Cost','Quality','Fit'].map((l,i)=>`<div style="grid-template-columns:48px 1fr 34px"><span>${l}</span><input type="range" min="0" max="3" value="${W[i]}" oninput="setW(${i},this.value)" aria-label="${l}"><em id="wv${i}" style="font-style:normal">${['Off','Low','Mid','High'][W[i]]}</em></div>`).join('')}</div><div id="rk" style="margin-top:6px">${rank(t)}</div>${ap?'<div class="mute sm">Already approved: switching alerts the team to cancel and rebook.</div>':''}</div>`:''}</div>`}
+function phone(){const t=tasks.find(x=>x.id===cur),f=$('#feed');let h='';
+ if(!t)h=pend?`<div class="b me">${esc(pend)}</div><div class="dots"><i></i><i></i><i></i></div>`:'';
+ else{h=t.thread.map(m=>`<div class="b ${m.from}">${esc(m.text)}</div>`).join('');
+  if(t.status==='research'){const i=Math.min(4,Math.floor((Date.now()-(t.rs||t.created))/950));h+=`<div class="theatre"><div class="kick">RESEARCH ROOM</div>${STEPS.map((s,k)=>`<div class="st ${k<i?'d':k===i?'a':''}">${s}</div>`).join('')}</div>`}
+  else if(t.status==='working'||t.busy)h+='<div class="dots"><i></i><i></i><i></i></div>';
+  if(t.options&&t.scores&&!['working','research','error'].includes(t.status))h+=decision(t)}
+ const y=f.scrollTop;f.innerHTML=h;if(t&&(t.status!=='answered'||!rt))f.scrollTop=f.scrollHeight;else f.scrollTop=y}
+function know(){$('#know').innerHTML=Object.values(prof).filter(Boolean).map(x=>`<span class="chip">${esc(x)}</span>`).join('')}
+
+/* ---------- ASK FOR HELP: home and chat window ---------- */
+const ago=t=>{const s=Math.round((Date.now()-t.created)/1000);return s<60?'just now':s<3600?Math.floor(s/60)+' min ago':Math.floor(s/3600)+' h ago'};
+function home(){$('#sug').innerHTML=SUG.map((s,i)=>`<button class="chip" onclick="askHelp(SUG[${i}][1])">${s[0]}</button>`).join('');
+ $('#convs').innerHTML=tasks.length?tasks.map(t=>{const s=ST(t),last=t.thread.length?t.thread[t.thread.length-1].text:'';return`<button class="tile" style="--tc:${s[2]}" onclick="openChat(${t.id})"><div class="row" style="margin:0"><span class="pill ${s[1]}">${s[0]}</span><span class="mute sm" style="margin-left:auto">${ago(t)}</span></div><b>${esc(t.title)}</b><div class="mute sm" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${esc(last)}</div></button>`}).join(''):'<div class="mute">Your conversations will appear here.</div>'}
+function draw(){know();home();const c=$('#chat');
+ if(!c.hidden){const t=tasks.find(x=>x.id===cur),s=t?ST(t):['Starting','',''];$('#ctitle').textContent=t?t.title:'New request';const p=$('#cstat');p.textContent=s[0];p.className='pill '+s[1];phone()}
+ $('#foot').textContent=mode==='demo'?'Demo mode: scripted sample answers. Open this page from your Orbit server for real AI.':'';
+ const cn=$('#conn');cn.textContent=mode==='live'?'Connected to server':'Demo mode';cn.className='pill '+(mode==='live'?'ok':'warn');
+ tasks.forEach(t=>{if(t.alert&&seenAlert[t.id]!==t.alert){seenAlert[t.id]=t.alert}})}
+function openView(){$('#chat').hidden=false;document.body.style.overflow='hidden';setTimeout(()=>$('#msg').focus(),350)}
+function openChat(id){cur=id;rt=false;openView();draw()}
+function goHome(){$('#chat').hidden=true;document.body.style.overflow='';pend=null;draw()}
+async function askHelp(text){text=(text||'').trim();if(!text)return;$('#ask').value='';pend=text;cur=null;openView();draw();
+ try{await B().create(text)}catch(e){toast(e.message);goHome();return}
+ pend=null;draw()}
+async function sendMsg(){const i=$('#msg'),v=i.value.trim();if(!v)return;i.value='';const t=tasks.find(x=>x.id===cur);try{if(t)await B().message(t.id,v);else await askHelp(v)}catch(e){toast(e.message)}}
+const PF=['area','kids','prefs','insurance'];
+$('#askb').onclick=()=>askHelp($('#ask').value);$('#ask').onkeydown=e=>{if(e.key==='Enter')askHelp($('#ask').value)};
+$('#send').onclick=sendMsg;$('#msg').onkeydown=e=>{if(e.key==='Enter')sendMsg()};$('#back').onclick=goHome;
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#chat').hidden)goHome()});
+$('#pv').onclick=()=>$('#dlg').showModal();
+$('#editk').onclick=()=>{PF.forEach(k=>$('#pf_'+k).value=prof[k]||'');$('#dp').showModal()};
+$('#savep').onclick=async()=>{PF.forEach(k=>prof[k]=$('#pf_'+k).value.trim());$('#dp').close();know();if(mode==='live')try{await api('/api/profile',Object.assign({},prof),'PUT')}catch(e){toast(e.message)}};
+setInterval(()=>{const t=tasks.find(x=>x.id===cur);if(t&&t.status==='research'&&!$('#chat').hidden)phone()},600);
+(async()=>{if(window.claude){draw();return}try{await api('/api/health');mode='live';Object.assign(prof,await api('/api/profile'));await sync();poll=setInterval(sync,2500)}catch(e){}draw()})();
 </script></body></html>
